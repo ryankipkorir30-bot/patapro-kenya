@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Request a Quote | PataPro Kenya</title>
+
+  <link rel="stylesheet" href="../css/style.css">
+
+  <style>
+    .quote-page {
+      min-height: 100vh;
+      padding: 60px 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .quote-card {
+      width: 100%;
+      max-width: 700px;
+      padding: 35px;
+      border-radius: 24px;
+      background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(18px);
+      border: 1px solid rgba(255,255,255,0.15);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+    }
+
+    .quote-card h1 {
+      margin-bottom: 10px;
+    }
+
+    .quote-card > p {
+      opacity: .75;
+      margin-bottom: 30px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.15);
+      background: rgba(0,0,0,0.15);
+      color: inherit;
+      outline: none;
+      font-size: 15px;
+      box-sizing: border-box;
+    }
+
+    .form-group textarea {
+      min-height: 150px;
+      resize: vertical;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      border-color: #00c6ff;
+      box-shadow: 0 0 0 3px rgba(0,198,255,.12);
+    }
+
+    .submit-btn {
+      width: 100%;
+      border: none;
+      padding: 15px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 700;
+      background: linear-gradient(135deg,#00c6ff,#0072ff);
+      color: white;
+      transition: .25s;
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(0,114,255,.3);
+    }
+
+    .submit-btn:disabled {
+      opacity: .6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .message {
+      display: none;
+      margin-bottom: 20px;
+      padding: 13px 15px;
+      border-radius: 10px;
+      font-weight: 600;
+    }
+
+    .message.success {
+      display: block;
+      background: rgba(34,197,94,.15);
+      border: 1px solid rgba(34,197,94,.4);
+      color: #4ade80;
+    }
+
+    .message.error {
+      display: block;
+      background: rgba(239,68,68,.15);
+      border: 1px solid rgba(239,68,68,.4);
+      color: #f87171;
+    }
+
+    .business-info {
+      display: none;
+      margin-bottom: 25px;
+      padding: 16px;
+      border-radius: 14px;
+      background: rgba(0,198,255,.08);
+      border: 1px solid rgba(0,198,255,.2);
+    }
+
+    .business-info strong {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-bottom: 25px;
+      text-decoration: none;
+      color: #00c6ff;
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="quote-page">
+
+    <div class="quote-card">
+
+      <a href="../index.html" class="back-link">
+        ← Back to PataPro Kenya
+      </a>
+
+      <h1>Request a Quote</h1>
+
+      <p>
+        Tell the business what you need and receive a quote directly.
+      </p>
+
+      <div id="businessInfo" class="business-info">
+        <strong id="businessName">Loading business...</strong>
+        <span id="businessCategory"></span>
+      </div>
+
+      <div id="message" class="message"></div>
+
+      <form id="quoteForm">
+
+        <div class="form-group">
+          <label for="subject">What do you need?</label>
+
+          <input
+            type="text"
+            id="subject"
+            name="subject"
+            placeholder="Example: Website development"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="serviceId">Service</label>
+
+          <select id="serviceId" name="serviceId">
+            <option value="">General inquiry</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="messageText">Describe what you need</label>
+
+          <textarea
+            id="messageText"
+            name="message"
+            placeholder="Explain what you need, your requirements, preferred date, location, etc."
+            required
+          ></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="budget">Budget (KES)</label>
+
+          <input
+            type="number"
+            id="budget"
+            name="budget"
+            min="0"
+            step="1"
+            placeholder="Example: 25000"
+          >
+        </div>
+
+        <button
+          type="submit"
+          id="submitButton"
+          class="submit-btn"
+        >
+          Send Quote Request
+        </button>
+
+      </form>
+
+    </div>
+
+  </main>
+
+  <script>
+    const API_URL = "/api";
+
+    const params = new URLSearchParams(window.location.search);
+
+    const businessId = params.get("businessId");
+    const serviceIdFromUrl = params.get("serviceId");
+
+    const quoteForm = document.getElementById("quoteForm");
+    const messageBox = document.getElementById("message");
+    const submitButton = document.getElementById("submitButton");
+
+    const businessInfo = document.getElementById("businessInfo");
+    const businessName = document.getElementById("businessName");
+    const businessCategory = document.getElementById("businessCategory");
+
+    const serviceSelect = document.getElementById("serviceId");
+
+    function showMessage(text, type) {
+      messageBox.textContent = text;
+      messageBox.className = `message ${type}`;
+    }
+
+    async function loadBusiness() {
+
+      if (!businessId) {
+        showMessage(
+          "No business was selected. Open this page from a business profile.",
+          "error"
+        );
+
+        submitButton.disabled = true;
+        return;
+      }
+
+      try {
+
+        const response = await fetch(
+          `${API_URL}/businesses/${businessId}`
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.message || "Unable to load business.");
+        }
+
+        const business = data.business || data;
+
+        businessName.textContent = business.business_name;
+
+        businessCategory.textContent =
+          `${business.category || "Business"} • ${business.town || business.county || ""}`;
+
+        businessInfo.style.display = "block";
+
+        await loadServices();
+
+      } catch (error) {
+
+        console.error(error);
+
+        showMessage(
+          error.message || "Unable to load business information.",
+          "error"
+        );
+
+      }
+    }
+
+    async function loadServices() {
+
+      try {
+
+        const response = await fetch(
+          `${API_URL}/businesses/${businessId}/services`
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          return;
+        }
+
+        const services = data.services || [];
+
+        services.forEach(service => {
+
+          const option = document.createElement("option");
+
+          option.value = service.id;
+
+          option.textContent =
+            `${service.name}${service.price ? ` — KES ${service.price}` : ""}`;
+
+          serviceSelect.appendChild(option);
+
+        });
+
+        if (serviceIdFromUrl) {
+          serviceSelect.value = serviceIdFromUrl;
+        }
+
+      } catch (error) {
+
+        console.error("Could not load services:", error);
+
+      }
+    }
+
+    quoteForm.addEventListener("submit", async function(event) {
+
+      event.preventDefault();
+
+      const token = localStorage.getItem("patapro_token");
+
+      if (!token) {
+
+        showMessage(
+          "Please login before requesting a quote.",
+          "error"
+        );
+
+        setTimeout(() => {
+          window.location.href =
+            `login.html?redirect=${encodeURIComponent(window.location.href)}`;
+        }, 1500);
+
+        return;
+      }
+
+      if (!businessId) {
+
+        showMessage(
+          "Business information is missing.",
+          "error"
+        );
+
+        return;
+      }
+
+      const subject =
+        document.getElementById("subject").value.trim();
+
+      const message =
+        document.getElementById("messageText").value.trim();
+
+      const budgetValue =
+        document.getElementById("budget").value;
+
+      const selectedService =
+        serviceSelect.value;
+
+      if (!subject || !message) {
+
+        showMessage(
+          "Please fill in the subject and description.",
+          "error"
+        );
+
+        return;
+      }
+
+      const payload = {
+        businessId: Number(businessId),
+        subject,
+        message
+      };
+
+      if (selectedService) {
+        payload.serviceId = Number(selectedService);
+      }
+
+      if (budgetValue) {
+        payload.budget = Number(budgetValue);
+      }
+
+      submitButton.disabled = true;
+      submitButton.textContent = "Sending...";
+
+      try {
+
+        const response = await fetch(
+          `${API_URL}/quotes`,
+          {
+            method: "POST",
+
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${token}`
+            },
+
+            body: JSON.stringify(payload)
+          }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+
+          if (response.status === 401) {
+
+            localStorage.removeItem("patapro_token");
+            localStorage.removeItem("patapro_user");
+
+            throw new Error(
+              "Your login session has expired. Please login again."
+            );
+          }
+
+          throw new Error(
+            data.message || "Failed to send quote request."
+          );
+        }
+
+        showMessage(
+          "✅ Quote request sent successfully!",
+          "success"
+        );
+
+        quoteForm.reset();
+
+        if (serviceIdFromUrl) {
+          serviceSelect.value = serviceIdFromUrl;
+        }
+
+        submitButton.textContent = "Request Sent";
+
+        setTimeout(() => {
+
+          window.location.href =
+            `business.html?id=${businessId}`;
+
+        }, 1800);
+
+      } catch (error) {
+
+        console.error(error);
+
+        showMessage(
+          error.message || "Something went wrong.",
+          "error"
+        );
+
+        submitButton.disabled = false;
+        submitButton.textContent = "Send Quote Request";
+      }
+
+    });
+
+    loadBusiness();
+  </script>
+<script src="/js/app.js"></script>
+</body>
+</html>

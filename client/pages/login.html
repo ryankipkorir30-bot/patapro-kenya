@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Login | PataPro Kenya</title>
+
+  <!-- Google Identity Services -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #07111f, #0b1f36, #062b2b);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      padding: 20px;
+    }
+
+    .login-container {
+      width: 100%;
+      max-width: 1000px;
+      min-height: 600px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-radius: 25px;
+      overflow: hidden;
+      box-shadow: 0 25px 80px rgba(0, 0, 0, 0.45);
+    }
+
+    .left {
+      padding: 60px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      background:
+        radial-gradient(circle at top left, rgba(0,255,200,.18), transparent 40%),
+        radial-gradient(circle at bottom right, rgba(0,150,255,.15), transparent 40%);
+    }
+
+    .logo {
+      font-size: 34px;
+      font-weight: 800;
+      margin-bottom: 20px;
+    }
+
+    .logo span {
+      color: #00e0a4;
+    }
+
+    .left h1 {
+      font-size: 42px;
+      margin-bottom: 18px;
+    }
+
+    .left p {
+      color: #b7c5d5;
+      line-height: 1.7;
+      max-width: 420px;
+    }
+
+    .features {
+      margin-top: 35px;
+      display: grid;
+      gap: 14px;
+    }
+
+    .feature {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: #dce8f4;
+    }
+
+    .feature-icon {
+      width: 35px;
+      height: 35px;
+      flex-shrink: 0;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: rgba(0,224,164,.12);
+      color: #00e0a4;
+    }
+
+    .right {
+      background: rgba(0,0,0,.18);
+      padding: 60px;
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+    }
+
+    .right h2 {
+      font-size: 30px;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      color: #91a2b5;
+      margin-bottom: 30px;
+      line-height: 1.6;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    .form-group > label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 14px;
+      color: #dbe6f2;
+    }
+
+    .input-wrapper {
+      position: relative;
+    }
+
+    .input-wrapper input {
+      padding-right: 55px;
+    }
+
+    input[type="email"],
+    input[type="password"],
+    input[type="text"] {
+      width: 100%;
+      padding: 15px;
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 12px;
+      background: rgba(255,255,255,.06);
+      color: white;
+      outline: none;
+      transition: .25s;
+    }
+
+    input:focus {
+      border-color: #00e0a4;
+      box-shadow: 0 0 0 3px rgba(0,224,164,.1);
+    }
+
+    input::placeholder {
+      color: #728298;
+    }
+
+    .password-toggle {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      color: #8ea0b5;
+      user-select: none;
+      background: transparent;
+      border: none;
+      width: auto;
+      padding: 5px;
+      font-size: 18px;
+    }
+
+    .password-toggle:hover {
+      box-shadow: none;
+      transform: translateY(-50%);
+    }
+
+    .form-options {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin: 5px 0 20px;
+      font-size: 13px;
+    }
+
+    .remember {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #aab8c8;
+      cursor: pointer;
+    }
+
+    .remember input {
+      accent-color: #00e0a4;
+    }
+
+    a {
+      color: #00e0a4;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    button {
+      border: none;
+      padding: 15px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #00e0a4, #00a8ff);
+      color: #001b17;
+      font-weight: 800;
+      cursor: pointer;
+      font-size: 16px;
+      transition: .25s;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(0,224,164,.2);
+    }
+
+    button:disabled {
+      opacity: .6;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .login-submit {
+      width: 100%;
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 25px 0;
+      color: #708196;
+      font-size: 13px;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: "";
+      height: 1px;
+      flex: 1;
+      background: rgba(255,255,255,.1);
+    }
+
+    .social-login {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      justify-items: stretch;
+    }
+
+    .google-button-wrap {
+      width: 100%;
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    #googleButton {
+      min-height: 44px;
+    }
+
+    .social-btn {
+      width: 100%;
+      background: rgba(255,255,255,.06);
+      color: white;
+      border: 1px solid rgba(255,255,255,.1);
+    }
+
+    .social-btn:hover {
+      background: rgba(255,255,255,.1);
+      box-shadow: none;
+    }
+
+    .message {
+      margin-bottom: 15px;
+      padding: 12px;
+      border-radius: 10px;
+      display: none;
+      font-size: 14px;
+      line-height: 1.5;
+      overflow-wrap: anywhere;
+    }
+
+    .message.error {
+      display: block;
+      background: rgba(255,70,70,.12);
+      color: #ff8d8d;
+      border: 1px solid rgba(255,70,70,.2);
+    }
+
+    .message.success {
+      display: block;
+      background: rgba(0,224,164,.1);
+      color: #65f3c5;
+      border: 1px solid rgba(0,224,164,.2);
+    }
+
+    .register-link {
+      text-align: center;
+      margin-top: 25px;
+      color: #8999ab;
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    .footer-note {
+      margin-top: 20px;
+      text-align: center;
+      color: #728298;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 800px) {
+      body {
+        padding: 12px;
+      }
+
+      .login-container {
+        grid-template-columns: 1fr;
+        min-height: auto;
+        max-width: 480px;
+      }
+
+      .left {
+        display: none;
+      }
+
+      .right {
+        padding: 35px 25px;
+      }
+    }
+
+    @media (max-width: 380px) {
+      .right {
+        padding: 28px 18px;
+      }
+
+      .form-options {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="login-container">
+    <section class="left">
+      <div class="logo">Pata<span>Pro</span></div>
+
+      <h1>Welcome Back 👋</h1>
+
+      <p>
+        Find trusted professionals, discover local businesses,
+        request quotations and grow your business with PataPro Kenya.
+      </p>
+
+      <div class="features">
+        <div class="feature">
+          <div class="feature-icon">✓</div>
+          Verified businesses
+        </div>
+
+        <div class="feature">
+          <div class="feature-icon">✓</div>
+          Request quotations
+        </div>
+
+        <div class="feature">
+          <div class="feature-icon">✓</div>
+          Connect with customers
+        </div>
+
+        <div class="feature">
+          <div class="feature-icon">✓</div>
+          Manage your services
+        </div>
+      </div>
+    </section>
+
+    <section class="right">
+      <h2>Sign in</h2>
+
+      <p class="subtitle">
+        Log in to your PataPro account.
+      </p>
+
+      <div id="message" class="message" role="status" aria-live="polite"></div>
+
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="email">Email address</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="you@example.com"
+            autocomplete="email"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+
+          <div class="input-wrapper">
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Enter your password"
+              autocomplete="current-password"
+              required
+            >
+
+            <button
+              type="button"
+              id="passwordToggle"
+              class="password-toggle"
+              aria-label="Show password"
+              aria-pressed="false"
+            >👁</button>
+          </div>
+        </div>
+
+        <div class="form-options">
+          <label class="remember">
+            <input type="checkbox" id="remember">
+            Remember me
+          </label>
+
+          <a href="forgot-password.html">Forgot password?</a>
+        </div>
+
+        <button type="submit" class="login-submit" id="loginButton">
+          Login
+        </button>
+      </form>
+
+      <div class="divider">OR CONTINUE WITH</div>
+
+      <div class="social-login">
+        <div class="google-button-wrap">
+          <div id="googleButton"></div>
+        </div>
+
+        <div id="googleMessage" class="message" role="status" aria-live="polite"></div>
+
+        <button type="button" class="social-btn" id="facebookLogin">
+          Continue with Facebook
+        </button>
+      </div>
+
+      <div class="register-link">
+        Don't have an account?
+        <a href="register.html">Create account</a>
+      </div>
+
+      <p class="footer-note">
+        By signing in, you agree to use PataPro responsibly.
+      </p>
+    </section>
+  </main>
+
+  <script>
+    // Use the same origin that serves this page.
+   const API_BASE = "/api";
+
+    // Replace this placeholder with your Google Web Client ID.
+    const GOOGLE_CLIENT_ID = "180540313131-d56rbcdrr3jpcdm5al9hjmmo0gs76l5l.apps.googleusercontent.com";
+
+    const form = document.getElementById("loginForm");
+    const emailInput = document.getElementById("email");
+    const passwordInput = document.getElementById("password");
+    const loginButton = document.getElementById("loginButton");
+    const message = document.getElementById("message");
+    const googleMessage = document.getElementById("googleMessage");
+    const passwordToggle = document.getElementById("passwordToggle");
+
+    function showMessage(text, type = "error") {
+      message.textContent = text;
+      message.className = `message ${type}`;
+    }
+
+    function showGoogleMessage(text, type = "error") {
+      googleMessage.textContent = text;
+      googleMessage.className = `message ${type}`;
+    }
+
+    function getDashboardDestination(role) {
+      const destinations = {
+        business: "business.html",
+        customer: "customer-dashboard.html",
+        service_provider: "business-dashboard.html",
+        admin: "../../admin/index.html"
+      };
+
+      return destinations[role] || "../index.html";
+    }
+
+    function saveLoginAndRedirect(data) {
+      if (!data || !data.token || !data.user || !data.user.role) {
+        throw new Error("The server returned an invalid login response.");
+      }
+
+      // Preserve the storage keys used by PataPro.
+      localStorage.setItem("patapro_token", data.token);
+      localStorage.setItem("patapro_user", JSON.stringify(data.user));
+
+      window.location.href = getDashboardDestination(data.user.role);
+    }
+
+    // Show or hide the password.
+    passwordToggle.addEventListener("click", () => {
+      const showPassword = passwordInput.type === "password";
+
+      passwordInput.type = showPassword ? "text" : "password";
+      passwordToggle.textContent = showPassword ? "🙈" : "👁";
+      passwordToggle.setAttribute("aria-pressed", String(showPassword));
+      passwordToggle.setAttribute(
+        "aria-label",
+        showPassword ? "Hide password" : "Show password"
+      );
+    });
+
+    // Existing email-and-password login.
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      const email = emailInput.value.trim();
+      const password = passwordInput.value;
+
+      if (!email || !password) {
+        showMessage("Please enter your email and password.");
+        return;
+      }
+
+      loginButton.disabled = true;
+      loginButton.textContent = "Logging in...";
+      message.className = "message";
+
+      try {
+        const response = await fetch(`${API_BASE}/auth/login`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ email, password })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.message || "Login failed.");
+        }
+
+        if (!data.token || !data.user) {
+          throw new Error("Invalid login response from server.");
+        }
+
+        showMessage("Login successful! Redirecting...", "success");
+        saveLoginAndRedirect(data);
+      } catch (error) {
+        console.error("Login error:", error);
+        showMessage(
+          error.message || "Unable to log in. Please try again."
+        );
+      } finally {
+        loginButton.disabled = false;
+        loginButton.textContent = "Login";
+      }
+    });
+
+    // Google Identity Services initialization.
+    function initializeGoogleSignIn() {
+      if (GOOGLE_CLIENT_ID === "YOUR_GOOGLE_CLIENT_ID") {
+        showGoogleMessage(
+          "Google sign-in needs your Google Web Client ID to be configured."
+        );
+        return;
+      }
+
+      if (!window.google || !window.google.accounts || !window.google.accounts.id) {
+        showGoogleMessage(
+          "Google sign-in could not load. Check your internet connection and refresh."
+        );
+        return;
+      }
+
+      window.google.accounts.id.initialize({
+        client_id: GOOGLE_CLIENT_ID,
+        callback: handleGoogleCredential
+      });
+
+      window.google.accounts.id.renderButton(
+        document.getElementById("googleButton"),
+        {
+          theme: "outline",
+          size: "large",
+          text: "continue_with",
+          shape: "pill",
+          width: 280,
+          logo_alignment: "left"
+        }
+      );
+
+      googleMessage.className = "message";
+      googleMessage.textContent = "";
+    }
+
+    // Send Google's credential to the backend for verification.
+    async function handleGoogleCredential(googleResponse) {
+      showGoogleMessage("Verifying your Google account...", "success");
+
+      try {
+        const response = await fetch(`${API_BASE}/auth/google`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            credential: googleResponse.credential
+          })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(
+            data.message || "Google sign-in failed."
+          );
+        }
+
+        if (!data.token || !data.user) {
+          throw new Error("The server returned an invalid login response.");
+        }
+
+        // Same session keys and role redirects as normal login.
+        localStorage.setItem("patapro_token", data.token);
+        localStorage.setItem("patapro_user", JSON.stringify(data.user));
+
+        showGoogleMessage("Google sign-in successful. Redirecting...", "success");
+
+        window.location.href = getDashboardDestination(data.user.role);
+      } catch (error) {
+        console.error("Google sign-in error:", error);
+        showGoogleMessage(
+          error.message || "Unable to sign in with Google."
+        );
+      }
+    }
+
+    // Facebook authentication has not been implemented yet.
+    document.getElementById("facebookLogin").addEventListener("click", () => {
+      showMessage(
+        "Facebook sign-in is not available yet. Please use your password or Google."
+      );
+    });
+
+    // Google script is loaded asynchronously, so wait for it.
+    window.addEventListener("load", initializeGoogleSignIn);
+  </script>
+</body>
+</html>

@@ -1,0 +1,105 @@
+const express = require("express");
+const cors = require("cors");
+const dotenv = require("dotenv");
+const helmet = require("helmet");
+const rateLimit = require("express-rate-limit");
+const path = require("path");
+
+dotenv.config();
+
+const app = express();
+const PORT = process.env.PORT || 5000;
+
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: ["'self'", "'unsafe-inline'"],
+        scriptSrcAttr: ["'unsafe-inline'"],
+        styleSrc: ["'self'", "'unsafe-inline'", "https:"],
+        imgSrc: ["'self'", "data:", "https:"],
+        connectSrc: [
+          "'self'",
+          "http://localhost:5000",
+          "http://127.0.0.1:5000"
+        ]
+      }
+    }
+  })
+);
+
+app.use(cors({
+  origin: true,
+  credentials: true
+}));
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+app.use(
+  rateLimit({
+    windowMs: 15 * 60 * 1000,
+    limit: 300,
+    standardHeaders: true,
+    legacyHeaders: false
+  })
+);
+
+
+app.use(express.static(path.join(__dirname, "../client")));
+app.use(
+    "/uploads",
+    express.static(
+        path.join(__dirname, "uploads")
+    )
+);
+app.use("/admin", express.static(path.join(__dirname, "../admin")));
+
+const authRoutes = require("./routes/authRoutes");
+const businessRoutes = require("./routes/businessRoutes");
+const serviceRoutes = require("./routes/serviceRoutes");
+const quoteRoutes = require("./routes/quoteRoutes");
+const verificationRoutes = require("./routes/verificationRoutes");
+const featuredRoutes = require("./routes/featuredRoutes");
+const adminRoutes = require("./routes/adminRoutes");
+
+app.use("/api/auth", authRoutes);
+app.use("/api/businesses", businessRoutes);
+app.use("/api", serviceRoutes);
+app.use("/api/quotes", quoteRoutes);
+app.use("/api/verification", verificationRoutes);
+app.use("/api/featured", featuredRoutes);
+app.use("/api/admin", adminRoutes);
+
+app.get("/api/health", (req, res) => {
+  res.json({
+    success: true,
+    message: "PataPro Kenya API is running 🇰🇪",
+    port: PORT
+  });
+});
+
+app.use("/api", (req, res) => {
+  res.status(404).json({
+    success: false,
+    message: "API route not found"
+  });
+});
+
+app.use((req, res) => {
+  res.status(404).send("Page not found");
+});
+
+app.use((err, req, res, next) => {
+  console.error("❌ Server error:", err);
+
+  res.status(err.status || 500).json({
+    success: false,
+    message: err.message || "Internal server error"
+  });
+});
+
+app.listen(PORT, () => {
+  console.log(`🚀 PataPro Kenya API running on port ${PORT}`);
+});

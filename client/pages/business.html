@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta name="theme-color" content="#071a33">
+  <meta name="description" content="Discover trusted local businesses and professional services across Kenya on PataPro.">
+
+  <title>Business Profile | PataPro Kenya 🇰🇪</title>
+
+  <style>
+    :root {
+      --navy: #071a33;
+      --blue: #0666f5;
+      --green: #39ff88;
+      --text: #172033;
+      --muted: #667085;
+      --surface: #ffffff;
+      --background: #f4f7fb;
+      --border: #e5eaf2;
+      --radius: 18px;
+      --shadow: 0 8px 28px rgba(12, 35, 70, .07);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--background);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    button,
+    a {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      color: white;
+      background: linear-gradient(135deg, var(--navy), #0758b8);
+      box-shadow: 0 5px 20px rgba(0, 0, 0, .15);
+    }
+
+    .nav {
+      width: min(1200px, 92%);
+      min-height: 76px;
+      margin: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .logo {
+      font-size: 25px;
+      font-weight: 800;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .logo span {
+      color: var(--green);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 22px;
+    }
+
+    .nav-links a {
+      color: white;
+      font-weight: 600;
+      font-size: 14px;
+      text-decoration: none;
+    }
+
+    .nav-links a:hover {
+      color: var(--green);
+    }
+
+    .hero {
+      padding: 55px 20px 65px;
+      color: white;
+      background:
+        radial-gradient(circle at 85% 15%, rgba(0, 102, 255, .45), transparent 35%),
+        linear-gradient(135deg, #071a33, #102d55);
+    }
+
+    .hero-content {
+      max-width: 1100px;
+      margin: auto;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-bottom: 30px;
+      color: white;
+      text-decoration: none;
+      opacity: .9;
+    }
+
+    .back-link:hover {
+      color: var(--green);
+    }
+
+    .hero-main {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+
+    .business-logo {
+      width: 118px;
+      height: 118px;
+      flex-shrink: 0;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      border-radius: 24px;
+      background: linear-gradient(135deg, var(--blue), var(--green));
+      box-shadow: 0 12px 30px rgba(0, 0, 0, .2);
+      font-size: 48px;
+    }
+
+    .business-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .hero-info h1 {
+      margin-bottom: 8px;
+      font-size: clamp(30px, 5vw, 48px);
+      line-height: 1.2;
+      overflow-wrap: anywhere;
+    }
+
+    .hero-info p {
+      color: #d8e4f4;
+      font-size: 17px;
+    }
+
+    .badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .badge {
+      padding: 6px 12px;
+      border-radius: 30px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .badge.verified {
+      color: #075c2a;
+      background: #d9ffe8;
+    }
+
+    .badge.featured {
+      color: #805700;
+      background: #fff0bd;
+    }
+
+    .container {
+      width: min(1100px, 94%);
+      min-height: 300px;
+      margin: auto;
+      padding: 38px 0 60px;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(260px, 1fr);
+      gap: 24px;
+      align-items: start;
+    }
+
+    .card {
+      margin-bottom: 24px;
+      padding: 25px;
+      border: 1px solid rgba(220, 228, 239, .8);
+      border-radius: var(--radius);
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+
+    .card h2 {
+      margin-bottom: 17px;
+      font-size: 22px;
+    }
+
+    .description {
+      color: #586579;
+      white-space: pre-line;
+      overflow-wrap: anywhere;
+    }
+
+    .info-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin: 16px 0;
+      color: #4c5668;
+      overflow-wrap: anywhere;
+    }
+
+    .info-icon {
+      width: 25px;
+      flex-shrink: 0;
+    }
+
+    .info-row a {
+      color: var(--blue);
+      text-decoration: none;
+      overflow-wrap: anywhere;
+    }
+
+    .info-row a:hover {
+      text-decoration: underline;
+    }
+
+    .services {
+      display: grid;
+      gap: 14px;
+    }
+
+    .service {
+      padding: 17px;
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      transition: border-color .2s, transform .2s;
+    }
+
+    .service:hover {
+      border-color: #a9caff;
+      transform: translateY(-2px);
+    }
+
+    .service h3 {
+      margin-bottom: 7px;
+      font-size: 17px;
+    }
+
+    .service p {
+      color: var(--muted);
+      font-size: 14px;
+      white-space: pre-line;
+    }
+
+    .service-price {
+      margin-top: 10px;
+      color: var(--blue);
+      font-weight: 800;
+    }
+
+    .rating {
+      color: #ffb400;
+      font-size: 23px;
+    }
+
+    .rating-number {
+      margin-left: 8px;
+      color: #596477;
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    .review-count {
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .actions {
+      display: grid;
+      gap: 12px;
+    }
+
+    .btn {
+      width: 100%;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      padding: 13px 17px;
+      border: 0;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 700;
+      text-align: center;
+      text-decoration: none;
+      cursor: pointer;
+      transition: transform .2s, background .2s;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-primary {
+      color: white;
+      background: var(--blue);
+    }
+
+    .btn-primary:hover {
+      background: #0050c7;
+    }
+
+    .btn-whatsapp {
+      color: white;
+      background: #20b966;
+    }
+
+    .btn-call {
+      color: #0756c5;
+      background: #edf3ff;
+    }
+
+    .btn-secondary {
+      color: #26354b;
+      background: #edf1f7;
+    }
+
+    .loading,
+    .empty-state {
+      padding: 55px 20px;
+      border-radius: var(--radius);
+      background: white;
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+
+    .spinner {
+      width: 42px;
+      height: 42px;
+      margin: 0 auto 18px;
+      border: 4px solid #dce5f5;
+      border-top-color: var(--blue);
+      border-radius: 50%;
+      animation: spin .8s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .loading p,
+    .empty-state p {
+      margin-top: 7px;
+      color: var(--muted);
+    }
+
+    .error-state {
+      max-width: 700px;
+      margin: 25px auto;
+      padding: 35px 20px;
+      border: 1px solid #ffd1cc;
+      border-radius: var(--radius);
+      color: #a1261b;
+      background: #fff2f0;
+      text-align: center;
+    }
+
+    .error-state p {
+      margin: 8px 0 18px;
+    }
+
+    .error-state .btn {
+      width: auto;
+      display: inline-flex;
+      color: white;
+      background: var(--blue);
+    }
+
+    .site-footer {
+      padding: 35px 20px;
+      color: white;
+      background: var(--navy);
+      text-align: center;
+    }
+
+    .site-footer p {
+      margin-top: 8px;
+      color: #c5d2e2;
+      font-size: 13px;
+    }
+
+    [hidden] {
+      display: none !important;
+    }
+
+    @media (max-width: 800px) {
+      .nav {
+        padding: 15px 0;
+        flex-direction: column;
+      }
+
+      .nav-links {
+        justify-content: center;
+        gap: 13px 18px;
+      }
+
+      .hero {
+        padding: 40px 18px;
+      }
+
+      .hero-main {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .badges {
+        justify-content: center;
+      }
+
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .container {
+        width: min(100% - 28px, 650px);
+        padding-top: 24px;
+      }
+
+      .card {
+        padding: 21px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header class="site-header">
+  <div class="nav">
+    <a class="logo" href="/index.html">
+      PataPro <span>Kenya 🇰🇪</span>
+    </a>
+
+    <nav class="nav-links" aria-label="Main navigation">
+      <a href="/index.html">Home</a>
+      <a href="/pages/services.html">Services</a>
+      <a href="/pages/register.html">Register Business</a>
+      <a href="/pages/login.html">Login</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-content">
+    <a href="/index.html" class="back-link">← Back to businesses</a>
+
+    <div class="hero-main">
+      <div class="business-logo" id="businessLogo" aria-label="Business logo">
+        🏪
+      </div>
+
+      <div class="hero-info">
+        <h1 id="businessName">Loading business...</h1>
+        <p id="businessCategory">Please wait while we load the profile.</p>
+        <div id="badges" class="badges"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<main class="container">
+
+  <section id="pageLoading" class="loading" aria-live="polite">
+    <div class="spinner"></div>
+    <h2>Loading business...</h2>
+    <p>Please wait while we retrieve the business details.</p>
+  </section>
+
+  <section id="pageError" class="error-state" role="alert" hidden>
+    <h2>⚠️ Unable to load this business</h2>
+    <p id="errorMessage">Please try again.</p>
+    <button type="button" class="btn" id="retryButton">Try again</button>
+    <p><a href="/index.html">Return to PataPro home</a></p>
+  </section>
+
+  <section id="businessContent" hidden>
+    <div class="layout">
+
+      <div>
+        <section class="card">
+          <h2>About This Business</h2>
+          <p id="description" class="description"></p>
+        </section>
+
+        <section class="card">
+          <h2>Services</h2>
+          <div id="services" class="services">
+            <p>Loading services...</p>
+          </div>
+        </section>
+      </div>
+
+      <aside>
+        <section class="card">
+          <h2>Business Details</h2>
+
+          <div class="info-row">
+            <span class="info-icon">📍</span>
+            <div id="location">Not provided</div>
+          </div>
+
+          <div class="info-row">
+            <span class="info-icon">📞</span>
+            <div id="phone">Not provided</div>
+          </div>
+
+          <div class="info-row">
+            <span class="info-icon">📧</span>
+            <div id="email">Not provided</div>
+          </div>
+
+          <div class="info-row">
+            <span class="info-icon">🌐</span>
+            <div id="website">Not provided</div>
+          </div>
+        </section>
+
+        <section class="card">
+          <h2>Rating</h2>
+          <div class="rating">
+            ⭐⭐⭐⭐⭐
+            <span id="ratingNumber" class="rating-number">0.0</span>
+          </div>
+          <p id="reviewCount" class="review-count">0 reviews</p>
+        </section>
+
+        <section class="card">
+          <h2>Contact Business</h2>
+
+          <div class="actions">
+            <a id="quoteButton" class="btn btn-primary" href="#">
+              💬 Request a Quote
+            </a>
+
+            <a
+              id="whatsappButton"
+              class="btn btn-whatsapp"
+              href="#"
+              target="_blank"
+              rel="noopener noreferrer"
+              hidden
+            >
+              WhatsApp
+            </a>
+
+            <a id="callButton" class="btn btn-call" href="#" hidden>
+              📞 Call Business
+            </a>
+
+            <a id="emailButton" class="btn btn-secondary" href="#" hidden>
+              ✉️ Email Business
+            </a>
+          </div>
+        </section>
+      </aside>
+
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <h3>PataPro Kenya 🇰🇪</h3>
+  <p>Connecting customers with trusted businesses across Kenya.</p>
+  <p>© <span id="currentYear"></span> PataPro Kenya. All rights reserved.</p>
+</footer>
+
+<script>
+  "use strict";
+
+  // Use the same hostname and port as the page.
+  // This avoids mixing localhost with 127.0.0.1.
+ 
+const API_BASE = "/api";
+
+
+  const params = new URLSearchParams(window.location.search);
+  const businessId = params.get("id");
+
+  const elements = {
+    loading: document.getElementById("pageLoading"),
+    error: document.getElementById("pageError"),
+    errorMessage: document.getElementById("errorMessage"),
+    content: document.getElementById("businessContent"),
+    name: document.getElementById("businessName"),
+    category: document.getElementById("businessCategory"),
+    logo: document.getElementById("businessLogo"),
+    badges: document.getElementById("badges"),
+    description: document.getElementById("description"),
+    services: document.getElementById("services"),
+    location: document.getElementById("location"),
+    phone: document.getElementById("phone"),
+    email: document.getElementById("email"),
+    website: document.getElementById("website"),
+    rating: document.getElementById("ratingNumber"),
+    reviewCount: document.getElementById("reviewCount"),
+    quote: document.getElementById("quoteButton"),
+    whatsapp: document.getElementById("whatsappButton"),
+    call: document.getElementById("callButton"),
+    emailButton: document.getElementById("emailButton")
+  };
+
+  document.getElementById("currentYear").textContent =
+    new Date().getFullYear();
+
+  function showLoading() {
+    elements.loading.hidden = false;
+    elements.error.hidden = true;
+    elements.content.hidden = true;
+  }
+
+  function showError(message) {
+    elements.loading.hidden = true;
+    elements.content.hidden = true;
+    elements.error.hidden = false;
+    elements.errorMessage.textContent = message;
+  }
+
+  function safeText(value, fallback = "Not provided") {
+    if (value === null || value === undefined || String(value).trim() === "") {
+      return fallback;
+    }
+
+    return String(value).trim();
+  }
+
+  function addInfoLink(container, label, href) {
+    const link = document.createElement("a");
+    link.textContent = label;
+    link.href = href;
+    container.replaceChildren(link);
+  }
+
+  function normalizePhone(phone) {
+    return String(phone || "").replace(/[^\d+]/g, "");
+  }
+
+  function normalizeWhatsApp(phone) {
+    let number = String(phone || "").replace(/\D/g, "");
+
+    if (number.startsWith("0")) {
+      number = "254" + number.slice(1);
+    } else if (number.length === 9) {
+      number = "254" + number;
+    }
+
+    return number;
+  }
+
+  function safeWebsiteUrl(value) {
+    let website = String(value || "").trim();
+
+    if (!website) return null;
+
+    if (!/^https?:\/\//i.test(website)) {
+      website = "https://" + website;
+    }
+
+    try {
+      const url = new URL(website);
+
+      if (url.protocol !== "http:" && url.protocol !== "https:") {
+        return null;
+      }
+
+      return url.href;
+    } catch {
+      return null;
+    }
+  }
+
+  async function getJson(url) {
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Accept": "application/json"
+      }
+    });
+
+    let data;
+
+    try {
+      data = await response.json();
+    } catch {
+      throw new Error("The server returned an invalid response.");
+    }
+
+    if (!response.ok) {
+      throw new Error(
+        data.message || `Request failed with status ${response.status}.`
+      );
+    }
+
+    return data;
+  }
+
+  async function loadBusiness() {
+    showLoading();
+
+    if (!businessId || !/^\d+$/.test(businessId)) {
+      showError("The business ID is missing or invalid. Open a business from the PataPro listings.");
+      return;
+    }
+
+    try {
+      const data = await getJson(
+        `${API_BASE}/businesses/${encodeURIComponent(businessId)}`
+      );
+
+      // Support either { business: {...} } or a direct business object.
+      const business = data.business || data;
+
+      if (!business || !business.id) {
+        throw new Error("This business could not be found.");
+      }
+
+      displayBusiness(business);
+
+      elements.loading.hidden = true;
+      elements.error.hidden = true;
+      elements.content.hidden = false;
+
+      // Load services separately so the business profile still appears
+      // if the services endpoint temporarily fails.
+      await loadServices(business.id);
+
+    } catch (error) {
+      console.error("Business profile error:", error);
+
+      showError(
+        error.message || "Unable to load this business. Please try again."
+      );
+    }
+  }
+
+  function displayBusiness(business) {
+    const name = safeText(business.business_name || business.name, "Unnamed Business");
+    const category = safeText(business.category, "General Services");
+
+    elements.name.textContent = name;
+    elements.category.textContent = category;
+    elements.description.textContent = safeText(
+      business.description,
+      "This business has not added a description yet."
+    );
+
+    document.title = `${name} | PataPro Kenya 🇰🇪`;
+
+    const location = [
+      business.town,
+      business.county
+    ].filter(Boolean).join(", ") || business.location || "Kenya";
+
+    elements.location.textContent = safeText(location);
+
+    const phone = safeText(business.phone, "");
+    const email = safeText(business.email, "");
+    const whatsapp = safeText(business.whatsapp || phone, "");
+
+    // Business logo: use the stored image if available.
+    const logoUrl = business.logo || business.logo_url || "";
+
+    elements.logo.replaceChildren();
+
+    if (logoUrl) {
+      const image = document.createElement("img");
+      image.src = logoUrl;
+      image.alt = `${name} logo`;
+      image.referrerPolicy = "no-referrer";
+
+      image.addEventListener("error", () => {
+        elements.logo.textContent = "🏪";
+      }, { once: true });
+
+      elements.logo.appendChild(image);
+    } else {
+      elements.logo.textContent = "🏪";
+    }
+
+    // Phone and call action.
+    elements.phone.textContent = "Not provided";
+    elements.call.hidden = true;
+
+    if (phone) {
+      addInfoLink(elements.phone, phone, `tel:${normalizePhone(phone)}`);
+      elements.call.href = `tel:${normalizePhone(phone)}`;
+      elements.call.hidden = false;
+    }
+
+    // Email and email action.
+    elements.email.textContent = "Not provided";
+    elements.emailButton.hidden = true;
+
+    if (email) {
+      addInfoLink(elements.email, email, `mailto:${email}`);
+      elements.emailButton.href = `mailto:${email}`;
+      elements.emailButton.hidden = false;
+    }
+
+    // Website.
+    elements.website.textContent = "Not provided";
+
+    const websiteUrl = safeWebsiteUrl(business.website);
+
+    if (websiteUrl) {
+      const link = document.createElement("a");
+      link.href = websiteUrl;
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      link.textContent = "Visit website";
+      elements.website.replaceChildren(link);
+    }
+
+    // Verified and featured badges.
+    elements.badges.replaceChildren();
+
+    if (business.is_verified === true || business.is_verified === "true") {
+      const badge = document.createElement("span");
+      badge.className = "badge verified";
+      badge.textContent = "✓ Verified Business";
+      elements.badges.appendChild(badge);
+    }
+
+    if (business.is_featured === true || business.is_featured === "true") {
+      const badge = document.createElement("span");
+      badge.className = "badge featured";
+      badge.textContent = "⭐ Featured";
+      elements.badges.appendChild(badge);
+    }
+
+    // Rating data is displayed only if provided by the backend.
+    const rating = Number(business.rating || 0);
+    elements.rating.textContent =
+      Number.isFinite(rating) ? rating.toFixed(1) : "0.0";
+
+    const reviewCount = Number(business.review_count || 0);
+    elements.reviewCount.textContent =
+      `${reviewCount} ${reviewCount === 1 ? "review" : "reviews"}`;
+
+    // WhatsApp contact.
+    elements.whatsapp.hidden = true;
+
+    if (whatsapp) {
+      const number = normalizeWhatsApp(whatsapp);
+
+      if (number) {
+        elements.whatsapp.href = `https://wa.me/${number}`;
+        elements.whatsapp.hidden = false;
+      }
+    }
+
+    // Quote page receives the real business ID.
+    elements.quote.href =
+      `/pages/request-quote.html?businessId=${encodeURIComponent(business.id)}`;
+  }
+
+  async function loadServices(id) {
+    elements.services.replaceChildren();
+
+    try {
+      const data = await getJson(
+        `${API_BASE}/businesses/${encodeURIComponent(id)}/services`
+      );
+
+      const services = Array.isArray(data)
+        ? data
+        : Array.isArray(data.services)
+          ? data.services
+          : [];
+
+      if (services.length === 0) {
+        showServiceMessage(
+          "No services listed yet",
+          "This business has not added any services yet."
+        );
+        return;
+      }
+
+      for (const service of services) {
+        const card = document.createElement("article");
+        card.className = "service";
+
+        const title = document.createElement("h3");
+        title.textContent = safeText(
+          service.service_name || service.name,
+          "Service"
+        );
+
+        const description = document.createElement("p");
+        description.textContent = safeText(
+          service.description,
+          "No description available."
+        );
+
+        card.append(title, description);
+
+        if (
+          service.price !== null &&
+          service.price !== undefined &&
+          service.price !== ""
+        ) {
+          const price = document.createElement("div");
+          price.className = "service-price";
+
+          const numericPrice = Number(service.price);
+
+          price.textContent = Number.isFinite(numericPrice)
+            ? `Price: KSh ${numericPrice.toLocaleString("en-KE")}`
+            : `Price: KSh ${service.price}`;
+
+          card.appendChild(price);
+        }
+
+        elements.services.appendChild(card);
+      }
+
+    } catch (error) {
+      console.error("Service loading error:", error);
+
+      showServiceMessage(
+        "Services temporarily unavailable",
+        "We could not load this business's services. Please try again later."
+      );
+    }
+  }
+
+  function showServiceMessage(titleText, messageText) {
+    const card = document.createElement("div");
+    card.className = "service";
+
+    const title = document.createElement("h3");
+    title.textContent = titleText;
+
+    const message = document.createElement("p");
+    message.textContent = messageText;
+
+    card.append(title, message);
+    elements.services.replaceChildren(card);
+  }
+
+  document.getElementById("retryButton").addEventListener("click", loadBusiness);
+
+  document.addEventListener("DOMContentLoaded", loadBusiness);
+</script>
+
+<script src="/js/app.js"></script>
+</body>
+</html>

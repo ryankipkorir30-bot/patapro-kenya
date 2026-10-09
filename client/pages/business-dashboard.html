@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Business Dashboard | PataPro Kenya</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #07111f;
+      --panel: #0d1d30;
+      --panel-deep: #091827;
+      --field: #081522;
+      --text: #f5f8fc;
+      --muted: #91a5b8;
+      --green: #00e0a4;
+      --blue: #00a8ff;
+      --red: #ff8585;
+      --border: rgba(255,255,255,.08);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
+    body { background: var(--bg); color: var(--text); min-height: 100vh; }
+    header {
+      min-height: 70px; padding: 12px 30px; display: flex; align-items: center;
+      justify-content: space-between; gap: 15px; background: #0b1a2c;
+      border-bottom: 1px solid var(--border);
+    }
+    .logo { font-size: 25px; font-weight: 800; }
+    .logo span { color: var(--green); }
+    .header-right { display: flex; align-items: center; gap: 15px; }
+    .user-name { color: #b8c7d8; }
+    button {
+      border: none; cursor: pointer; border-radius: 10px; padding: 11px 16px;
+      font-weight: 700; transition: transform .15s ease, opacity .15s ease;
+    }
+    button:hover:not(:disabled) { transform: translateY(-1px); }
+    button:disabled { opacity: .55; cursor: not-allowed; }
+    .logout { background: rgba(255,70,70,.12); color: #ff8b8b; }
+    main { width: min(1200px, 94%); margin: 35px auto; }
+    .welcome { margin-bottom: 25px; }
+    .welcome h1 { font-size: 32px; margin-bottom: 7px; }
+    .welcome p { color: var(--muted); line-height: 1.6; }
+    .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-bottom: 25px; }
+    .stat { background: var(--panel); border: 1px solid var(--border); padding: 22px; border-radius: 16px; min-width: 0; }
+    .stat-label { color: #8497ab; font-size: 13px; margin-bottom: 10px; }
+    .stat-value { font-size: 28px; font-weight: 800; overflow-wrap: anywhere; }
+    .verified { color: var(--green); }
+    .pending { color: #ffc857; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; align-items: start; }
+    .card { background: var(--panel); border: 1px solid var(--border); border-radius: 18px; padding: 25px; margin-bottom: 22px; min-width: 0; }
+    .card h2 { margin-bottom: 18px; font-size: 20px; }
+    .form-group { margin-bottom: 15px; }
+    label { display: block; color: #aebed0; font-size: 13px; margin-bottom: 7px; }
+    input, textarea, select {
+      width: 100%; padding: 12px; border-radius: 9px; border: 1px solid rgba(255,255,255,.1);
+      outline: none; background: var(--field); color: white; font-size: 14px;
+    }
+    input[type="file"] { padding: 10px; }
+    input:focus, textarea:focus, select:focus { border-color: var(--green); }
+    textarea { resize: vertical; min-height: 100px; }
+    small { display: block; margin-top: 7px; color: var(--muted); line-height: 1.5; }
+    .primary { background: linear-gradient(135deg,var(--green),var(--blue)); color: #001b17; }
+    .secondary { background: rgba(255,255,255,.08); color: white; }
+    .danger { background: rgba(255,70,70,.1); color: var(--red); }
+    .business-item, .service-item, .quote-item {
+      padding: 17px; background: var(--panel-deep); border-radius: 12px;
+      margin-bottom: 12px; border: 1px solid rgba(255,255,255,.05); overflow-wrap: anywhere;
+    }
+    .business-item h3, .service-item h3, .quote-item h3 { margin-bottom: 6px; }
+    .muted { color: #8396aa; font-size: 13px; line-height: 1.6; }
+    .badge { display: inline-block; padding: 5px 9px; border-radius: 20px; font-size: 11px; font-weight: 700; margin-top: 8px; }
+    .badge.verified { background: rgba(0,224,164,.12); color: var(--green); }
+    .badge.pending { background: rgba(255,200,87,.12); color: #ffc857; }
+    .badge.rejected { background: rgba(255,70,70,.12); color: var(--red); }
+    .actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 13px; }
+    .actions button { font-size: 12px; padding: 9px 12px; }
+    .message { display: none; padding: 12px; border-radius: 10px; margin-bottom: 15px; font-size: 14px; overflow-wrap: anywhere; }
+    .message.show { display: block; }
+    .message.success { background: rgba(0,224,164,.1); color: #64f2c5; }
+    .message.error { background: rgba(255,70,70,.1); color: #ff8989; }
+    .empty { color: #718398; padding: 10px 0; }
+    .price { color: var(--green); font-weight: 700; margin-top: 8px; }
+    .status-select { margin-top: 10px; }
+    .verification-box { background: linear-gradient(135deg,rgba(0,224,164,.08),rgba(0,168,255,.06)); border: 1px solid rgba(0,224,164,.15); padding: 18px; border-radius: 14px; }
+    .verification-box h3 { margin-bottom: 8px; }
+    .verification-box p { color: var(--muted); line-height: 1.6; font-size: 14px; margin-bottom: 15px; }
+    .section-heading { margin-top: 25px; }
+    .image-preview { display: block; max-width: 100%; object-fit: cover; border-radius: 12px; margin-top: 12px; border: 1px solid var(--border); }
+    .logo-preview { width: 120px; height: 120px; }
+    .service-photo { width: 100%; max-width: 320px; max-height: 220px; }
+    .current-image { margin: 10px 0 14px; }
+    [hidden] { display: none !important; }
+    @media (max-width: 900px) { .stats { grid-template-columns: repeat(2, 1fr); } .grid { grid-template-columns: 1fr; } }
+    @media (max-width: 550px) {
+      header { padding: 12px 15px; } .user-name { display: none; }
+      .stats { grid-template-columns: 1fr 1fr; } .stat { padding: 16px; }
+      .stat-value { font-size: 23px; } main { width: 92%; }
+      .card { padding: 18px; } .welcome h1 { font-size: 27px; }
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div class="logo">Pata<span>Pro</span></div>
+  <div class="header-right">
+    <span id="userName" class="user-name">Business Owner</span>
+    <button class="logout" id="logoutBtn" type="button">Logout</button>
+  </div>
+</header>
+
+<main>
+  <section class="welcome">
+    <h1>Business Dashboard</h1>
+    <p>Manage your business, photos, services and customer requests.</p>
+  </section>
+
+  <div id="message" class="message" role="status" aria-live="polite"></div>
+
+  <section class="stats">
+    <div class="stat"><div class="stat-label">Businesses</div><div class="stat-value" id="businessCount">0</div></div>
+    <div class="stat"><div class="stat-label">Services</div><div class="stat-value" id="serviceCount">0</div></div>
+    <div class="stat"><div class="stat-label">Quotes</div><div class="stat-value" id="quoteCount">0</div></div>
+    <div class="stat"><div class="stat-label">Verification</div><div class="stat-value" id="verificationStatus">—</div></div>
+  </section>
+
+  <div class="grid">
+    <section class="card">
+      <h2>Business Profile</h2>
+      <form id="businessForm">
+        <div class="form-group">
+          <label for="businessName">Business Name</label>
+          <input id="businessName" required maxlength="150">
+        </div>
+
+        <div class="form-group">
+          <label for="businessLogo">Business Logo / Photo</label>
+          <input type="file" id="businessLogo" accept="image/jpeg,image/png,image/webp">
+          <small>JPG, PNG or WebP; maximum 5 MB. Save your business first, then upload the logo.</small>
+          <img id="businessLogoPreview" class="image-preview logo-preview" alt="Business logo preview" hidden>
+          <div id="savedLogoWrap" class="current-image" hidden>
+            <div class="muted">Current saved logo</div>
+            <img id="savedBusinessLogo" class="image-preview logo-preview" alt="Saved business logo">
+          </div>
+          <button class="secondary" type="button" id="uploadBusinessLogoButton" style="margin-top:12px" disabled>Upload Logo</button>
+        </div>
+
+        <div class="form-group"><label for="description">Description</label><textarea id="description"></textarea></div>
+        <div class="form-group"><label for="category">Category</label><input id="category"></div>
+        <div class="form-group"><label for="subcategory">Subcategory</label><input id="subcategory"></div>
+        <div class="form-group"><label for="phone">Phone</label><input id="phone" type="tel"></div>
+        <div class="form-group"><label for="whatsapp">WhatsApp</label><input id="whatsapp" type="tel"></div>
+        <div class="form-group"><label for="businessEmail">Email</label><input type="email" id="businessEmail"></div>
+        <div class="form-group"><label for="county">County</label><input id="county"></div>
+        <div class="form-group"><label for="town">Town</label><input id="town"></div>
+        <div class="form-group"><label for="location">Location</label><input id="location"></div>
+        <button class="primary" type="submit" id="saveBusinessButton">Save Business</button>
+      </form>
+      <div id="businessList"></div>
+    </section>
+
+    <section class="card">
+      <h2>Business Verification</h2>
+      <div id="verificationBox" class="verification-box">
+        <h3 id="verificationTitle">Get your business verified ✓</h3>
+        <p id="verificationDescription">Submit your business for verification. Verified businesses receive a verification badge and can build greater customer trust.</p>
+
+        <div class="form-group" id="documentTypeGroup">
+          <label for="documentType">Type of Document</label>
+          <select id="documentType">
+            <option value="">Select document type</option>
+            <option value="Business Registration Certificate">Business Registration Certificate</option>
+            <option value="Single Business Permit">Single Business Permit</option>
+            <option value="KRA PIN Certificate">KRA PIN Certificate</option>
+            <option value="National ID">National ID</option>
+            <option value="Other Supporting Document">Other Supporting Document</option>
+          </select>
+        </div>
+
+        <div class="form-group" id="verificationFileGroup">
+          <label for="verificationDocument">Upload Verification Document</label>
+          <input type="file" id="verificationDocument" accept=".pdf,.jpg,.jpeg,.png,.webp" aria-describedby="fileHelp">
+          <small id="fileHelp">PDF, JPG, PNG, or WebP. Maximum 5 MB.</small>
+        </div>
+        <button id="verificationButton" class="primary" type="button">Request Verification</button>
+      </div>
+
+      <h2 class="section-heading">Services</h2>
+      <form id="serviceForm">
+        <div class="form-group"><label for="serviceName">Service Name</label><input id="serviceName" required maxlength="150"></div>
+        <div class="form-group"><label for="serviceDescription">Description</label><textarea id="serviceDescription"></textarea></div>
+        <div class="form-group">
+          <label for="servicePhoto">Service Photo</label>
+          <input type="file" id="servicePhoto" name="servicePhoto" accept="image/jpeg,image/png,image/webp">
+          <small>Optional. JPG, PNG or WebP; maximum 5 MB.</small>
+          <img id="servicePhotoPreview" class="image-preview service-photo" alt="Service photo preview" hidden>
+        </div>
+        <div class="form-group"><label for="servicePrice">Price (KES)</label><input type="number" id="servicePrice" min="0" step="0.01"></div>
+        <div class="form-group">
+          <label for="priceType">Price Type</label>
+          <select id="priceType">
+            <option value="fixed">Fixed</option>
+            <option value="starting_from">Starting From</option>
+            <option value="negotiable">Negotiable</option>
+            <option value="free">Free</option>
+            <option value="quote">Request Quote</option>
+          </select>
+        </div>
+        <button class="primary" type="submit" id="addServiceButton">Add Service</button>
+      </form>
+      <div id="serviceList"><div class="empty">Loading services...</div></div>
+    </section>
+  </div>
+
+  <section class="card">
+    <h2>Customer Quote Requests</h2>
+    <div id="quoteList"><div class="empty">Loading quote requests...</div></div>
+  </section>
+</main>
+
+<script>
+"use strict";
+
+const API_BASE = "/api";
+const token = localStorage.getItem("patapro_token");
+const userJSON = localStorage.getItem("patapro_user");
+
+let currentUser = {};
+let currentBusiness = null;
+let messageTimer = null;
+const previewObjectUrls = new Map();
+
+try {
+  currentUser = JSON.parse(userJSON || "{}") || {};
+} catch {
+  currentUser = {};
+}
+
+if (!token) {
+  window.location.replace("login.html");
+}
+
+document.getElementById("userName").textContent =
+  currentUser.name ||
+  `${currentUser.first_name || ""} ${currentUser.last_name || ""}`.trim() ||
+  "Business Owner";
+
+function escapeHTML(value) {
+  return String(value ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+function showMessage(text, type = "success") {
+  const box = document.getElementById("message");
+  box.textContent = text;
+  box.className = `message show ${type}`;
+  if (messageTimer) clearTimeout(messageTimer);
+  messageTimer = setTimeout(() => { box.className = "message"; }, 6000);
+}
+
+function getImageUrl(url) {
+  if (!url) return "";
+  // Existing uploads are served by this API's Express static /uploads route.
+  if (/^https?:\/\//i.test(url)) return url;
+  return `${window.location.protocol}//${window.location.hostname}:5000${url.startsWith("/") ? "" : "/"}${url}`;
+}
+
+async function apiRequest(url, options = {}) {
+  const headers = { ...(options.headers || {}), Authorization: `Bearer ${token}` };
+  if (!(options.body instanceof FormData) && options.body !== undefined) {
+    headers["Content-Type"] = "application/json";
+  }
+
+  const response = await fetch(`${API_BASE}${url}`, { ...options, headers });
+  const data = await response.json().catch(() => ({}));
+
+  if (response.status === 401) {
+    localStorage.removeItem("patapro_token");
+    localStorage.removeItem("patapro_user");
+    window.location.href = "login.html";
+    throw new Error("Your session has expired. Please log in again.");
+  }
+  if (!response.ok) throw new Error(data.message || "Request failed.");
+  return data;
+}
+
+function validateImageFile(file) {
+  const allowedTypes = ["image/jpeg", "image/png", "image/webp"];
+  if (!allowedTypes.includes(file.type)) {
+    throw new Error("Choose a JPG, PNG, or WebP image.");
+  }
+  if (file.size > 5 * 1024 * 1024) {
+    throw new Error("The image must be 5 MB or smaller.");
+  }
+}
+
+function setupImagePreview(inputId, previewId) {
+  const input = document.getElementById(inputId);
+  const preview = document.getElementById(previewId);
+
+  input.addEventListener("change", () => {
+    const file = input.files[0];
+    preview.hidden = true;
+    preview.removeAttribute("src");
+
+    if (!file) return;
+
+    try {
+      validateImageFile(file);
+      const oldUrl = previewObjectUrls.get(previewId);
+      if (oldUrl) URL.revokeObjectURL(oldUrl);
+      const objectUrl = URL.createObjectURL(file);
+      previewObjectUrls.set(previewId, objectUrl);
+      preview.src = objectUrl;
+      preview.hidden = false;
+      if (inputId === "businessLogo") {
+        document.getElementById("uploadBusinessLogoButton").disabled = !currentBusiness;
+      }
+    } catch (error) {
+      input.value = "";
+      showMessage(error.message, "error");
+    }
+  });
+}
+
+setupImagePreview("businessLogo", "businessLogoPreview");
+setupImagePreview("servicePhoto", "servicePhotoPreview");
+
+function updateBusinessLogoButton() {
+  const input = document.getElementById("businessLogo");
+  document.getElementById("uploadBusinessLogoButton").disabled =
+    !currentBusiness || !input.files.length;
+}
+
+function renderSavedBusinessLogo(business) {
+  const wrap = document.getElementById("savedLogoWrap");
+  const image = document.getElementById("savedBusinessLogo");
+  const url = business.logo_url || business.logoUrl || null;
+
+  if (url) {
+    image.src = getImageUrl(url);
+    wrap.hidden = false;
+    image.onerror = () => { wrap.hidden = true; };
+  } else {
+    image.removeAttribute("src");
+    wrap.hidden = true;
+  }
+}
+
+/* LOAD BUSINESS */
+async function loadBusiness() {
+  try {
+    const data = await apiRequest("/businesses/my");
+    const businesses = Array.isArray(data)
+      ? data
+      : Array.isArray(data.businesses)
+        ? data.businesses
+        : data.business
+          ? [data.business]
+          : [];
+
+    document.getElementById("businessCount").textContent = businesses.length;
+
+    if (!businesses.length) {
+      currentBusiness = null;
+      document.getElementById("verificationStatus").textContent = "—";
+      document.getElementById("serviceCount").textContent = "0";
+      document.getElementById("quoteCount").textContent = "0";
+      document.getElementById("serviceList").innerHTML =
+        '<div class="empty">Create a business profile to add services.</div>';
+      document.getElementById("quoteList").innerHTML =
+        '<div class="empty">Create a business profile to receive quote requests.</div>';
+      document.getElementById("uploadBusinessLogoButton").disabled = true;
+      document.getElementById("savedLogoWrap").hidden = true;
+      updateVerificationUI();
+      return;
+    }
+
+    currentBusiness = businesses[0];
+    fillBusinessForm(currentBusiness);
+    renderSavedBusinessLogo(currentBusiness);
+    updateBusinessLogoButton();
+    updateVerificationUI();
+
+    await Promise.all([loadServices(), loadQuotes()]);
+  } catch (error) {
+    console.error("Load business error:", error);
+    showMessage(error.message, "error");
+  }
+}
+
+/* FILL BUSINESS FORM */
+function fillBusinessForm(business) {
+  document.getElementById("businessName").value = business.business_name || "";
+  document.getElementById("description").value = business.description || "";
+  document.getElementById("category").value = business.category || "";
+  document.getElementById("subcategory").value = business.subcategory || "";
+  document.getElementById("phone").value = business.phone || "";
+  document.getElementById("whatsapp").value = business.whatsapp || "";
+  document.getElementById("businessEmail").value = business.email || "";
+  document.getElementById("county").value = business.county || "";
+  document.getElementById("town").value = business.town || "";
+  document.getElementById("location").value = business.location || "";
+}
+
+/* SAVE BUSINESS */
+document.getElementById("businessForm").addEventListener("submit", async event => {
+  event.preventDefault();
+  const saveButton = document.getElementById("saveBusinessButton");
+  saveButton.disabled = true;
+
+  try {
+    const payload = {
+      businessName: document.getElementById("businessName").value.trim(),
+      description: document.getElementById("description").value.trim(),
+      category: document.getElementById("category").value.trim(),
+      subcategory: document.getElementById("subcategory").value.trim(),
+      phone: document.getElementById("phone").value.trim(),
+      whatsapp: document.getElementById("whatsapp").value.trim(),
+      email: document.getElementById("businessEmail").value.trim(),
+      county: document.getElementById("county").value.trim(),
+      town: document.getElementById("town").value.trim(),
+      location: document.getElementById("location").value.trim()
+    };
+
+    const data = currentBusiness
+      ? await apiRequest(`/businesses/${currentBusiness.id}`, {
+          method: "PUT", body: JSON.stringify(payload)
+        })
+      : await apiRequest("/businesses", {
+          method: "POST", body: JSON.stringify(payload)
+        });
+
+    showMessage(data.message || "Business saved successfully.");
+    await loadBusiness();
+  } catch (error) {
+    showMessage(error.message, "error");
+  } finally {
+    saveButton.disabled = false;
+  }
+});
+
+/* UPLOAD BUSINESS LOGO */
+document.getElementById("uploadBusinessLogoButton").addEventListener("click", async () => {
+  if (!currentBusiness) {
+    showMessage("Save your business profile before uploading its logo.", "error");
+    return;
+  }
+
+  const input = document.getElementById("businessLogo");
+  const file = input.files[0];
+  if (!file) {
+    showMessage("Choose a business logo first.", "error");
+    return;
+  }
+
+  const button = document.getElementById("uploadBusinessLogoButton");
+  const oldText = button.textContent;
+
+  try {
+    validateImageFile(file);
+    const formData = new FormData();
+    formData.append("businessPhoto", file);
+    button.disabled = true;
+    button.textContent = "Uploading...";
+
+    const data = await apiRequest(`/businesses/${currentBusiness.id}/photo`, {
+      method: "POST",
+      body: formData
+    });
+
+    if (data.business) currentBusiness = { ...currentBusiness, ...data.business };
+    input.value = "";
+    const preview = document.getElementById("businessLogoPreview");
+    preview.hidden = true;
+    preview.removeAttribute("src");
+    const oldUrl = previewObjectUrls.get("businessLogoPreview");
+    if (oldUrl) URL.revokeObjectURL(oldUrl);
+    previewObjectUrls.delete("businessLogoPreview");
+
+    showMessage(data.message || "Business logo uploaded successfully.");
+    await loadBusiness();
+  } catch (error) {
+    showMessage(error.message, "error");
+  } finally {
+    button.textContent = oldText;
+    updateBusinessLogoButton();
+  }
+});
+
+/* VERIFICATION UI */
+function updateVerificationUI() {
+  const status = String(
+    currentBusiness?.verification_status ||
+    currentBusiness?.verificationStatus || ""
+  ).toLowerCase();
+
+  const button = document.getElementById("verificationButton");
+  const title = document.getElementById("verificationTitle");
+  const description = document.getElementById("verificationDescription");
+  const stat = document.getElementById("verificationStatus");
+  const documentTypeGroup = document.getElementById("documentTypeGroup");
+  const fileGroup = document.getElementById("verificationFileGroup");
+
+  button.disabled = false;
+  documentTypeGroup.hidden = false;
+  fileGroup.hidden = false;
+
+  if (!currentBusiness) {
+    stat.textContent = "—";
+    title.textContent = "Create your business first";
+    description.textContent = "Save a business profile before requesting verification.";
+    button.disabled = true;
+    button.textContent = "Request Verification";
+    return;
+  }
+
+  if ([true, 1, "true"].includes(currentBusiness.is_verified)) {
+    stat.textContent = "Verified";
+    stat.className = "stat-value verified";
+    title.textContent = "Business Verified ✓";
+    description.textContent = "Your business has been verified.";
+    button.textContent = "Verified ✓";
+    button.disabled = true;
+    documentTypeGroup.hidden = true;
+    fileGroup.hidden = true;
+    return;
+  }
+
+  if (status === "pending") {
+    stat.textContent = "Pending";
+    stat.className = "stat-value pending";
+    title.textContent = "Verification Pending";
+    description.textContent = "Your request is awaiting review by the PataPro admin team.";
+    button.textContent = "Request Pending";
+    button.disabled = true;
+    documentTypeGroup.hidden = true;
+    fileGroup.hidden = true;
+    return;
+  }
+
+  if (status === "rejected") {
+    stat.textContent = "Rejected";
+    stat.className = "stat-value";
+    title.textContent = "Verification Rejected";
+    description.textContent = "Your previous request was rejected. You can submit a new request.";
+    button.textContent = "Request Again";
+    return;
+  }
+
+  stat.textContent = "Not verified";
+  stat.className = "stat-value";
+  title.textContent = "Get your business verified ✓";
+  description.textContent = "Submit an eligible document for review. Verified businesses receive a verification badge.";
+  button.textContent = "Request Verification";
+}
+
+/* REQUEST VERIFICATION */
+document.getElementById("verificationButton").addEventListener("click", async () => {
+  if (!currentBusiness) {
+    showMessage("Create and save your business profile first.", "error");
+    return;
+  }
+
+  if ([true, 1, "true"].includes(currentBusiness.is_verified)) return;
+
+  const documentType = document.getElementById("documentType").value;
+  const fileInput = document.getElementById("verificationDocument");
+  const file = fileInput.files[0];
+
+  if (!documentType) return showMessage("Please select a document type.", "error");
+  if (!file) return showMessage("Please choose a verification document.", "error");
+
+  const allowedTypes = ["application/pdf", "image/jpeg", "image/png", "image/webp"];
+  if (!allowedTypes.includes(file.type)) {
+    return showMessage("Choose a PDF, JPG, PNG, or WebP file.", "error");
+  }
+  if (file.size > 5 * 1024 * 1024) {
+    return showMessage("The file must be no larger than 5 MB.", "error");
+  }
+
+  const button = document.getElementById("verificationButton");
+  const originalText = button.textContent;
+  const formData = new FormData();
+  formData.append("businessId", String(currentBusiness.id));
+  formData.append("documentType", documentType);
+  formData.append("document", file);
+  formData.append("notes", "Business verification requested.");
+
+  button.disabled = true;
+  button.textContent = "Uploading document...";
+
+  try {
+    const response = await fetch(`${API_BASE}/verification`, {
+      method: "POST",
+      headers: { Authorization: `Bearer ${token}` },
+      body: formData
+    });
+    const data = await response.json().catch(() => ({}));
+
+    if (response.status === 401) {
+      localStorage.removeItem("patapro_token");
+      localStorage.removeItem("patapro_user");
+      window.location.href = "login.html";
+      return;
+    }
+    if (!response.ok) throw new Error(data.message || "Verification upload failed.");
+
+    currentBusiness.verification_status = "pending";
+    updateVerificationUI();
+    document.getElementById("documentType").value = "";
+    fileInput.value = "";
+    showMessage(data.message || "Verification request submitted successfully.");
+  } catch (error) {
+    console.error("Verification upload error:", error);
+    showMessage(error.message || "Unable to submit verification.", "error");
+  } finally {
+    if (currentBusiness?.verification_status === "pending" ||
+        [true, 1, "true"].includes(currentBusiness?.is_verified)) {
+      updateVerificationUI();
+    } else {
+      button.disabled = false;
+      button.textContent = originalText;
+    }
+  }
+});
+
+/* LOAD SERVICES */
+async function loadServices() {
+  if (!currentBusiness) return;
+
+  try {
+    const data = await apiRequest(`/businesses/${currentBusiness.id}/services`);
+    const services = Array.isArray(data) ? data : (data.services || []);
+    document.getElementById("serviceCount").textContent = services.length;
+
+    const list = document.getElementById("serviceList");
+    if (!services.length) {
+      list.innerHTML = '<div class="empty">No services added yet.</div>';
+      return;
+    }
+
+    list.innerHTML = services.map(service => {
+      const image = service.image_url || service.imageUrl;
+      return `
+        <div class="service-item">
+          ${image ? `<img class="image-preview service-photo" src="${escapeHTML(getImageUrl(image))}" alt="${escapeHTML(service.name)}" loading="lazy">` : ""}
+          <h3>${escapeHTML(service.name)}</h3>
+          <div class="muted">${escapeHTML(service.description || "")}</div>
+          ${service.price !== null && service.price !== undefined ? `<div class="price">KSh ${Number(service.price).toLocaleString()}</div>` : ""}
+          <div class="muted">${escapeHTML(service.price_type || service.priceType || "")}</div>
+          <div class="actions">
+            <button class="danger" type="button" onclick="deleteService(${Number(service.id)})">Delete</button>
+          </div>
+        </div>`;
+    }).join("");
+  } catch (error) {
+    console.error("Load services error:", error);
+    showMessage(error.message, "error");
+  }
+}
+
+/* ADD SERVICE WITH OPTIONAL PHOTO */
+document.getElementById("serviceForm").addEventListener("submit", async event => {
+  event.preventDefault();
+  if (!currentBusiness) {
+    showMessage("Create your business profile first.", "error");
+    return;
+  }
+
+  const form = event.currentTarget;
+  const button = document.getElementById("addServiceButton");
+
+  try {
+    const formData = new FormData();
+    formData.append("name", document.getElementById("serviceName").value.trim());
+    formData.append("description", document.getElementById("serviceDescription").value.trim());
+
+    const price = document.getElementById("servicePrice").value;
+    if (price !== "") formData.append("price", price);
+
+    formData.append("priceType", document.getElementById("priceType").value);
+
+    const photo = document.getElementById("servicePhoto").files[0];
+    if (photo) {
+      validateImageFile(photo);
+      formData.append("servicePhoto", photo);
+    }
+
+    button.disabled = true;
+    button.textContent = "Saving...";
+
+    const data = await apiRequest(`/businesses/${currentBusiness.id}/services`, {
+      method: "POST",
+      body: formData
+    });
+
+    form.reset();
+    const preview = document.getElementById("servicePhotoPreview");
+    preview.hidden = true;
+    preview.removeAttribute("src");
+    const oldUrl = previewObjectUrls.get("servicePhotoPreview");
+    if (oldUrl) URL.revokeObjectURL(oldUrl);
+    previewObjectUrls.delete("servicePhotoPreview");
+
+    showMessage(data.message || "Service added successfully.");
+    await loadServices();
+  } catch (error) {
+    showMessage(error.message, "error");
+  } finally {
+    button.disabled = false;
+    button.textContent = "Add Service";
+  }
+});
+
+/* DELETE SERVICE — matches DELETE /api/services/:id */
+async function deleteService(serviceId) {
+  if (!currentBusiness || !confirm("Delete this service?")) return;
+
+  try {
+    const data = await apiRequest(`/services/${serviceId}`, { method: "DELETE" });
+    showMessage(data.message || "Service deleted.");
+    await loadServices();
+  } catch (error) {
+    showMessage(error.message, "error");
+  }
+}
+
+/* LOAD QUOTES */
+async function loadQuotes() {
+  if (!currentBusiness) return;
+
+  try {
+    const data = await apiRequest(`/quotes/business/${currentBusiness.id}`);
+    const quotes = Array.isArray(data) ? data : (data.quotes || []);
+    document.getElementById("quoteCount").textContent = quotes.length;
+
+    const list = document.getElementById("quoteList");
+    if (!quotes.length) {
+      list.innerHTML = '<div class="empty">No customer quote requests yet.</div>';
+      return;
+    }
+
+    const statuses = ["pending", "viewed", "responded", "accepted", "rejected", "completed", "cancelled"];
+    list.innerHTML = quotes.map(quote => `
+      <div class="quote-item">
+        <h3>${escapeHTML(quote.subject)}</h3>
+        <div class="muted">Customer: ${escapeHTML(quote.customer_name || "Customer")}</div>
+        <div class="muted">${escapeHTML(quote.customer_email || "")}</div>
+        <p style="margin-top:10px;white-space:pre-wrap;">${escapeHTML(quote.message)}</p>
+        ${quote.service_name ? `<div class="muted">Service: ${escapeHTML(quote.service_name)}</div>` : ""}
+        ${quote.budget !== null && quote.budget !== undefined ? `<div class="price">Budget: KSh ${Number(quote.budget).toLocaleString()}</div>` : ""}
+        <label for="quote-status-${Number(quote.id)}">Request status</label>
+        <select id="quote-status-${Number(quote.id)}" class="status-select" onchange="updateQuoteStatus(${Number(quote.id)}, this.value)">
+          ${statuses.map(status => `<option value="${status}" ${String(quote.status).toLowerCase() === status ? "selected" : ""}>${status}</option>`).join("")}
+        </select>
+      </div>`).join("");
+  } catch (error) {
+    console.error("Load quotes error:", error);
+    showMessage(error.message, "error");
+  }
+}
+
+/* UPDATE QUOTE STATUS */
+async function updateQuoteStatus(quoteId, status) {
+  if (!currentBusiness) return;
+  try {
+    const data = await apiRequest(`/quotes/business/${currentBusiness.id}/${quoteId}/status`, {
+      method: "PUT",
+      body: JSON.stringify({ status })
+    });
+    showMessage(data.message || "Quote status updated.");
+    await loadQuotes();
+  } catch (error) {
+    showMessage(error.message, "error");
+    await loadQuotes();
+  }
+}
+
+/* LOGOUT */
+document.getElementById("logoutBtn").addEventListener("click", () => {
+  localStorage.removeItem("patapro_token");
+  localStorage.removeItem("patapro_user");
+  window.location.href = "login.html";
+});
+
+/* START */
+if (token) loadBusiness();
+</script>
+</body>
+</html>

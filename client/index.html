@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>PataPro Kenya 🇰🇪 | Find Trusted Local Services</title>
+
+    <meta name="description"
+          content="Find trusted businesses, professionals and services across Kenya with PataPro Kenya.">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f7fb;
+            color: #172033;
+        }
+
+        header {
+            background: linear-gradient(135deg, #071a33, #0066ff);
+            color: white;
+            padding: 18px 6%;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 5px 20px rgba(0,0,0,.15);
+        }
+
+        .nav {
+            max-width: 1200px;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: 800;
+        }
+
+        .logo span {
+            color: #39ff88;
+        }
+
+        nav {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        nav a:hover {
+            color: #39ff88;
+        }
+
+        .hero {
+            min-height: 430px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 70px 20px;
+            background:
+                radial-gradient(circle at top right, rgba(0,102,255,.25), transparent 35%),
+                linear-gradient(135deg, #071a33, #102d55);
+            color: white;
+        }
+
+        .hero-content {
+            max-width: 850px;
+        }
+
+        .hero h1 {
+            font-size: clamp(38px, 7vw, 70px);
+            margin-bottom: 18px;
+        }
+
+        .hero h1 span {
+            color: #39ff88;
+        }
+
+        .hero p {
+            font-size: 19px;
+            line-height: 1.6;
+            opacity: .9;
+            margin-bottom: 30px;
+        }
+
+        .search-box {
+            max-width: 750px;
+            margin: auto;
+            background: white;
+            padding: 8px;
+            border-radius: 14px;
+            display: flex;
+            gap: 8px;
+            box-shadow: 0 15px 40px rgba(0,0,0,.25);
+        }
+
+        .search-box input {
+            flex: 1;
+            border: none;
+            outline: none;
+            padding: 15px;
+            font-size: 16px;
+            border-radius: 10px;
+            color: #172033;
+        }
+
+        .search-box button {
+            border: none;
+            background: #0066ff;
+            color: white;
+            padding: 0 25px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 700;
+        }
+
+        .search-box button:hover {
+            background: #0050c7;
+        }
+
+        .section {
+            max-width: 1200px;
+            margin: auto;
+            padding: 60px 20px;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .section-title h2 {
+            font-size: 34px;
+            margin-bottom: 10px;
+        }
+
+        .section-title p {
+            color: #697386;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 45px;
+        }
+
+        .stat {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0,0,0,.07);
+        }
+
+        .stat strong {
+            display: block;
+            font-size: 32px;
+            color: #0066ff;
+            margin-bottom: 7px;
+        }
+
+        .business-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+            gap: 25px;
+        }
+
+        .business-card {
+            background: white;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,.08);
+            transition: .25s ease;
+        }
+
+        .business-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 15px 35px rgba(0,0,0,.14);
+        }
+
+        .business-cover {
+            height: 150px;
+            background:
+                linear-gradient(135deg, #0066ff, #071a33);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 45px;
+        }
+
+        .business-body {
+            padding: 22px;
+        }
+
+        .business-body h3 {
+            font-size: 21px;
+            margin-bottom: 8px;
+        }
+
+        .category {
+            color: #0066ff;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .business-body p {
+            color: #697386;
+            line-height: 1.5;
+            margin-bottom: 8px;
+        }
+
+        .verified {
+            display: inline-block;
+            background: #e9fff1;
+            color: #087a36;
+            padding: 5px 9px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .featured {
+            display: inline-block;
+            background: #fff4d6;
+            color: #996800;
+            padding: 5px 9px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            margin-left: 5px;
+        }
+
+        .business-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 18px;
+        }
+
+        .btn {
+            flex: 1;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            border: none;
+            padding: 12px;
+            border-radius: 9px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: #0066ff;
+            color: white;
+        }
+
+        .btn-secondary {
+            background: #edf3ff;
+            color: #0066ff;
+        }
+
+        .loading,
+        .empty,
+        .error {
+            text-align: center;
+            padding: 50px 20px;
+            background: white;
+            border-radius: 15px;
+            color: #697386;
+        }
+
+        .error {
+            color: #b42318;
+            background: #fff0ee;
+        }
+
+        footer {
+            background: #071a33;
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        footer p {
+            opacity: .8;
+            margin-top: 8px;
+        }
+
+        @media (max-width: 700px) {
+            .nav {
+                flex-direction: column;
+            }
+
+            nav {
+                justify-content: center;
+            }
+
+            .search-box {
+                flex-direction: column;
+                background: transparent;
+                box-shadow: none;
+            }
+
+            .search-box input,
+            .search-box button {
+                width: 100%;
+                min-height: 52px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="nav">
+        <div class="logo">
+            PataPro <span>Kenya 🇰🇪</span>
+        </div>
+
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="pages/services.html">Services</a>
+            <a href="pages/register.html">Register Business</a>
+            <a href="pages/login.html">Login</a>
+        </nav>
+    </div>
+</header>
+
+<section class="hero">
+    <div class="hero-content">
+
+        <h1>
+            Find <span>Trusted</span> Services Near You
+        </h1>
+
+        <p>
+            Discover businesses, professionals and services across Kenya.
+            Connect directly with the right service provider.
+        </p>
+
+        <div class="search-box">
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Search business, service or category..."
+            >
+
+            <button onclick="searchBusinesses()">
+                Search 🔎
+            </button>
+        </div>
+
+    </div>
+</section>
+
+<main class="section">
+
+    <div class="section-title">
+        <h2>Businesses on PataPro</h2>
+        <p id="resultText">Loading businesses...</p>
+    </div>
+
+    <div class="stats">
+
+        <div class="stat">
+            <strong id="businessCount">0</strong>
+            <span>Businesses</span>
+        </div>
+
+        <div class="stat">
+            <strong id="verifiedCount">0</strong>
+            <span>Verified</span>
+        </div>
+
+        <div class="stat">
+            <strong id="featuredCount">0</strong>
+            <span>Featured</span>
+        </div>
+
+    </div>
+
+    <div id="businessContainer">
+        <div class="loading">
+            Loading businesses...
+        </div>
+    </div>
+
+</main>
+
+<footer>
+    <h3>PataPro Kenya 🇰🇪</h3>
+    <p>Connecting customers with trusted businesses across Kenya.</p>
+    <p>© 2026 PataPro Kenya. All rights reserved.</p>
+</footer>
+
+<script>
+
+    // ==========================================
+    // API CONFIGURATION
+    // ==========================================
+
+    const API_BASE = "/api";
+
+    let allBusinesses = [];
+
+
+    // ==========================================
+    // LOAD BUSINESSES
+    // ==========================================
+
+    async function loadBusinesses() {
+
+        const container =
+            document.getElementById("businessContainer");
+
+        const resultText =
+            document.getElementById("resultText");
+
+        try {
+
+            container.innerHTML = `
+                <div class="loading">
+                    Loading businesses...
+                </div>
+            `;
+
+            const response = await fetch(
+                `${API_BASE}/businesses`
+            );
+
+            if (!response.ok) {
+                throw new Error(
+                    `Server returned ${response.status}`
+                );
+            }
+
+            const data = await response.json();
+
+            /*
+             * IMPORTANT FIX
+             *
+             * Your backend currently returns:
+             *
+             * [
+             *   {...},
+             *   {...},
+             *   {...}
+             * ]
+             *
+             * NOT:
+             *
+             * {
+             *   businesses: [...]
+             * }
+             *
+             * Therefore we support BOTH formats.
+             */
+
+           const businesses = Array.isArray(data)
+    ? data
+    : (data.businesses || []);
+            allBusinesses = businesses;
+
+            updateStats(businesses);
+
+            renderBusinesses(businesses);
+
+        } catch (error) {
+
+            console.error(
+                "Failed to load businesses:",
+                error
+            );
+
+            resultText.textContent =
+                "Unable to load businesses";
+
+            container.innerHTML = `
+                <div class="error">
+                    <h3>⚠️ Unable to load businesses</h3>
+
+                    <p style="margin-top:10px;">
+                        Make sure your PataPro backend is running.
+                    </p>
+
+                    <p style="margin-top:10px;">
+                        API:
+                        <strong>${API_BASE}/businesses</strong>
+                    </p>
+
+                    <button
+                        class="btn btn-primary"
+                        style="max-width:200px;margin:20px auto 0;"
+                        onclick="loadBusinesses()"
+                    >
+                        Try Again
+                    </button>
+                </div>
+            `;
+        }
+    }
+
+
+    // ==========================================
+    // UPDATE STATISTICS
+    // ==========================================
+
+    function updateStats(businesses) {
+
+        const total =
+            businesses.length;
+
+        const verified =
+            businesses.filter(
+                business => business.is_verified === true
+            ).length;
+
+        const featured =
+            businesses.filter(
+                business => business.is_featured === true
+            ).length;
+
+        document.getElementById(
+            "businessCount"
+        ).textContent = total;
+
+        document.getElementById(
+            "verifiedCount"
+        ).textContent = verified;
+
+        document.getElementById(
+            "featuredCount"
+        ).textContent = featured;
+
+        document.getElementById(
+            "resultText"
+        ).textContent =
+            `${total} business${total === 1 ? "" : "es"} found`;
+    }
+
+
+    // ==========================================
+    // RENDER BUSINESSES
+    // ==========================================
+
+    function renderBusinesses(businesses) {
+
+        const container =
+            document.getElementById("businessContainer");
+
+        if (!businesses.length) {
+
+            container.innerHTML = `
+                <div class="empty">
+                    <h3>No businesses found</h3>
+
+                    <p style="margin-top:10px;">
+                        There are currently no businesses
+                        matching your search.
+                    </p>
+                </div>
+            `;
+
+            return;
+        }
+
+        container.innerHTML = `
+            <div class="business-grid">
+                ${businesses.map(
+                    business => createBusinessCard(business)
+                ).join("")}
+            </div>
+        `;
+    }
+
+
+    // ==========================================
+    // CREATE BUSINESS CARD
+    // ==========================================
+
+    function createBusinessCard(business) {
+
+        const id =
+            encodeURIComponent(
+                business.id
+            );
+
+        const name =
+            escapeHTML(
+                business.business_name ||
+                "Unnamed Business"
+            );
+
+        const category =
+            escapeHTML(
+                business.category ||
+                "General Services"
+            );
+
+        const description =
+            escapeHTML(
+                business.description ||
+                "No description available."
+            );
+
+        const town =
+            escapeHTML(
+                business.town ||
+                business.location ||
+                "Kenya"
+            );
+
+        const phone =
+            business.phone || "";
+
+        const whatsapp =
+            business.whatsapp ||
+            phone.replace(/\D/g, "");
+
+        const verified =
+            business.is_verified === true
+                ? `<span class="verified">✓ Verified</span>`
+                : "";
+
+        const featured =
+            business.is_featured === true
+                ? `<span class="featured">⭐ Featured</span>`
+                : "";
+
+        return `
+            <article class="business-card">
+
+                <div class="business-cover">
+                    🏪
+                </div>
+
+                <div class="business-body">
+
+                    ${verified}
+                    ${featured}
+
+                    <h3>${name}</h3>
+
+                    <div class="category">
+                        ${category}
+                    </div>
+
+                    <p>
+                        ${description}
+                    </p>
+
+                    <p>
+                        📍 ${town}
+                    </p>
+
+                    ${
+                        phone
+                            ? `<p>📞 ${escapeHTML(phone)}</p>`
+                            : ""
+                    }
+
+                    <div class="business-actions">
+
+                        <a
+                            class="btn btn-primary"
+                            href="/pages/business.html?id=${id}"
+                        >
+                            View
+                        </a>
+
+                        ${
+                            whatsapp
+                                ? `
+                                <a
+                                    class="btn btn-secondary"
+                                    href="https://wa.me/${encodeURIComponent(
+                                        normalizeWhatsApp(whatsapp)
+                                    )}"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    WhatsApp
+                                </a>
+                                `
+                                : ""
+                        }
+
+                    </div>
+
+                </div>
+
+            </article>
+        `;
+    }
+
+
+    // ==========================================
+    // SEARCH BUSINESSES
+    // ==========================================
+
+    function searchBusinesses() {
+
+        const input =
+            document.getElementById(
+                "searchInput"
+            );
+
+        const query =
+            input.value
+                .trim()
+                .toLowerCase();
+
+        if (!query) {
+
+            updateStats(allBusinesses);
+
+            renderBusinesses(
+                allBusinesses
+            );
+
+            return;
+        }
+
+        const filtered =
+            allBusinesses.filter(
+                business => {
+
+                    const searchableText = [
+
+                        business.business_name,
+                        business.category,
+                        business.subcategory,
+                        business.description,
+                        business.county,
+                        business.town,
+                        business.location
+
+                    ]
+                    .filter(Boolean)
+                    .join(" ")
+                    .toLowerCase();
+
+                    return searchableText.includes(
+                        query
+                    );
+                }
+            );
+
+        updateStats(filtered);
+
+        document.getElementById(
+            "resultText"
+        ).textContent =
+            `${filtered.length} result${
+                filtered.length === 1 ? "" : "s"
+            } found`;
+
+        renderBusinesses(filtered);
+    }
+
+
+    // ==========================================
+    // SEARCH WHEN PRESSING ENTER
+    // ==========================================
+
+    document
+        .getElementById("searchInput")
+        .addEventListener(
+            "keydown",
+            function(event) {
+
+                if (event.key === "Enter") {
+                    searchBusinesses();
+                }
+
+            }
+        );
+
+
+    // ==========================================
+    // ESCAPE HTML
+    // ==========================================
+
+    function escapeHTML(value) {
+
+        return String(value)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
+
+
+    // ==========================================
+    // WHATSAPP NUMBER
+    // ==========================================
+
+    function normalizeWhatsApp(phone) {
+
+        let number =
+            String(phone)
+                .replace(/\D/g, "");
+
+        if (number.startsWith("0")) {
+            number =
+                "254" + number.substring(1);
+        }
+
+        if (
+            !number.startsWith("254") &&
+            number.length === 9
+        ) {
+            number = "254" + number;
+        }
+
+        return number;
+    }
+
+
+    // ==========================================
+    // START APPLICATION
+    // ==========================================
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        loadBusinesses
+    );
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="PataPro Kenya Administration Dashboard"
+    >
+
+    <title>PataPro Kenya | Admin Dashboard</title>
+
+
+    <!-- =====================================================
+         FONT AWESOME
+    ====================================================== -->
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    >
+
+
+    <!-- =====================================================
+         ADMIN CSS
+    ====================================================== -->
+
+    <link
+        rel="stylesheet"
+        href="/admin/css/admin.css?v=2"
+    >
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+
+    <aside
+        class="sidebar"
+        id="sidebar"
+    >
+
+        <!-- LOGO -->
+
+        <div class="logo">
+
+            <div class="logo-icon">
+
+                <i class="fa-solid fa-location-dot"></i>
+
+            </div>
+
+            <div class="logo-text">
+
+                <h2>PataPro</h2>
+
+                <span>KENYA</span>
+
+            </div>
+
+        </div>
+
+
+        <!-- NAVIGATION -->
+
+        <nav class="sidebar-nav">
+
+
+            <p class="nav-title">
+                MAIN
+            </p>
+
+
+            <a
+                href="#"
+                class="nav-link active"
+                data-section="overview"
+            >
+
+                <i class="fa-solid fa-chart-line"></i>
+
+                <span>
+                    Dashboard
+                </span>
+
+            </a>
+
+
+            <a
+                href="#"
+                class="nav-link"
+                data-section="users"
+            >
+
+                <i class="fa-solid fa-users"></i>
+
+                <span>
+                    Users
+                </span>
+
+            </a>
+
+
+            <a
+                href="#"
+                class="nav-link"
+                data-section="businesses"
+            >
+
+                <i class="fa-solid fa-building"></i>
+
+                <span>
+                    Businesses
+                </span>
+
+            </a>
+
+
+            <p class="nav-title">
+                MANAGEMENT
+            </p>
+
+
+            <a
+                href="#"
+                class="nav-link"
+                data-section="verifications"
+            >
+
+                <i class="fa-solid fa-circle-check"></i>
+
+                <span>
+                    Verification
+                </span>
+
+            </a>
+
+
+            <a
+                href="#"
+                class="nav-link"
+                data-section="quotes"
+            >
+
+                <i class="fa-solid fa-file-invoice"></i>
+
+                <span>
+                    Quote Requests
+                </span>
+
+            </a>
+
+
+            <a
+                href="#"
+                class="nav-link"
+                data-section="featured"
+            >
+
+                <i class="fa-solid fa-star"></i>
+
+                <span>
+                    Featured Listings
+                </span>
+
+            </a>
+
+
+            <a
+                href="#"
+                class="nav-link"
+                data-section="payments"
+            >
+
+                <i class="fa-solid fa-credit-card"></i>
+
+                <span>
+                    Payments
+                </span>
+
+            </a>
+
+
+            <p class="nav-title">
+                SYSTEM
+            </p>
+
+
+            <a
+                href="/"
+                class="nav-link"
+            >
+
+                <i class="fa-solid fa-house"></i>
+
+                <span>
+                    Main Website
+                </span>
+
+            </a>
+
+        </nav>
+
+
+        <!-- SIDEBAR BOTTOM -->
+
+        <div class="sidebar-bottom">
+
+            <div class="admin-profile">
+
+                <div class="admin-avatar">
+
+                    <i class="fa-solid fa-user"></i>
+
+                </div>
+
+
+                <div class="admin-info">
+
+                    <strong id="adminName">
+                        Administrator
+                    </strong>
+
+                    <span>
+                        Super Admin
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <button
+                type="button"
+                id="logoutButton"
+                class="logout-btn"
+            >
+
+                <i class="fa-solid fa-right-from-bracket"></i>
+
+                Logout
+
+            </button>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+    ====================================================== -->
+
+    <main class="main-content">
+
+
+        <!-- =================================================
+             TOP BAR
+        ================================================== -->
+
+        <header class="topbar">
+
+
+            <div class="topbar-left">
+
+                <button
+                    type="button"
+                    class="menu-btn"
+                    id="menuBtn"
+                >
+
+                    <i class="fa-solid fa-bars"></i>
+
+                </button>
+
+
+                <div class="page-heading">
+
+                    <h1 id="pageTitle">
+                        Dashboard
+                    </h1>
+
+                    <p>
+                        Manage the PataPro Kenya platform
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="topbar-right">
+
+                <div class="admin-top-profile">
+
+                    <div class="top-avatar">
+
+                        <i class="fa-solid fa-user"></i>
+
+                    </div>
+
+                    <span>
+                        Administrator
+                    </span>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+
+        <!-- =================================================
+             CONTENT
+        ================================================== -->
+
+        <section class="content">
+
+
+            <!-- =================================================
+                 OVERVIEW
+            ================================================== -->
+
+            <section
+                id="overview"
+                class="section active"
+            >
+
+
+                <!-- PAGE HEADER -->
+
+                <div class="section-header">
+
+                    <div>
+
+                        <h2>
+                            Admin Dashboard
+                        </h2>
+
+                        <p>
+                            Manage the PataPro Kenya platform
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     STATISTICS
+                ================================================== -->
+
+                <div class="stats-grid">
+
+
+                    <!-- USERS -->
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon users">
+
+                            <i class="fa-solid fa-users"></i>
+
+                        </div>
+
+                        <div class="stat-info">
+
+                            <span>
+                                Users
+                            </span>
+
+                            <strong id="statUsers">
+                                0
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- BUSINESSES -->
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon businesses">
+
+                            <i class="fa-solid fa-building"></i>
+
+                        </div>
+
+                        <div class="stat-info">
+
+                            <span>
+                                Businesses
+                            </span>
+
+                            <strong id="statBusinesses">
+                                0
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- VERIFICATION -->
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon verification">
+
+                            <i class="fa-solid fa-circle-check"></i>
+
+                        </div>
+
+                        <div class="stat-info">
+
+                            <span>
+                                Verification
+                            </span>
+
+                            <strong id="statVerifications">
+                                0
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- QUOTES -->
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon quotes">
+
+                            <i class="fa-solid fa-comments"></i>
+
+                        </div>
+
+                        <div class="stat-info">
+
+                            <span>
+                                Quotes
+                            </span>
+
+                            <strong id="statQuotes">
+                                0
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- PAYMENTS -->
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon payments">
+
+                            <i class="fa-solid fa-money-bill-wave"></i>
+
+                        </div>
+
+                        <div class="stat-info">
+
+                            <span>
+                                Payments
+                            </span>
+
+                            <strong id="statPayments">
+                                0
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- =================================================
+                     PLATFORM OVERVIEW
+                ================================================== -->
+
+                <div class="panel">
+
+                    <div class="panel-header">
+
+                        <div>
+
+                            <h3>
+                                Platform Overview
+                            </h3>
+
+                            <p>
+                                Live information from PataPro PostgreSQL
+                            </p>
+
+                        </div>
+
+                        <span class="connection-status">
+
+                            <i class="fa-solid fa-circle"></i>
+
+                            Live
+
+                        </span>
+
+                    </div>
+
+
+                    <div id="overviewContent">
+
+                        <div class="loading-state">
+
+                            Loading platform information...
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+            </section>
+
+
+
+            <!-- =================================================
+                 USERS
+            ================================================== -->
+
+            <section
+                id="users"
+                class="section"
+            >
+
+                <div class="section-header">
+
+                    <div>
+
+                        <h2>
+                            Users
+                        </h2>
+
+                        <p>
+                            Manage PataPro customers and providers.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="panel">
+
+
+                    <div class="table-toolbar">
+
+                        <div class="table-search">
+
+                            <i class="fa-solid fa-magnifying-glass"></i>
+
+                            <input
+                                type="search"
+                                id="userSearch"
+                                placeholder="Search users..."
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="table-wrapper">
+
+                        <table>
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>
+                                        User
+                                    </th>
+
+                                    <th>
+                                        Phone
+                                    </th>
+
+                                    <th>
+                                        Role
+                                    </th>
+
+                                    <th>
+                                        Status
+                                    </th>
+
+                                    <th>
+                                        Joined
+                                    </th>
+
+                                    <th>
+                                        Actions
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody id="usersTable">
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =================================================
+                 BUSINESSES
+            ================================================== -->
+
+            <section
+                id="businesses"
+                class="section"
+            >
+
+                <div class="section-header">
+
+                    <div>
+
+                        <h2>
+                            Businesses
+                        </h2>
+
+                        <p>
+                            Manage businesses listed on PataPro.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="panel">
+
+
+                    <div class="table-toolbar">
+
+                        <div class="table-search">
+
+                            <i class="fa-solid fa-magnifying-glass"></i>
+
+                            <input
+                                type="search"
+                                id="businessSearch"
+                                placeholder="Search businesses..."
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="table-wrapper">
+
+                        <table>
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>
+                                        Business
+                                    </th>
+
+                                    <th>
+                                        Category
+                                    </th>
+
+                                    <th>
+                                        Location
+                                    </th>
+
+                                    <th>
+                                        Status
+                                    </th>
+
+                                    <th>
+                                        Joined
+                                    </th>
+
+                                    <th>
+                                        Actions
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody id="businessesTable">
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =================================================
+                 VERIFICATION
+            ================================================== -->
+
+            <section
+                id="verifications"
+                class="section"
+            >
+
+                <div class="section-header">
+
+                    <div>
+
+                        <h2>
+                            Business Verification
+                        </h2>
+
+                        <p>
+                            Review businesses requesting verification.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="panel">
+
+
+                    <div class="table-wrapper">
+
+                        <table>
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>
+                                        Business
+                                    </th>
+
+                                    <th>
+                                        Owner
+                                    </th>
+
+                                    <th>
+                                        Email
+                                    </th>
+
+                                    <th>
+                                        Status
+                                    </th>
+
+                                    <th>
+                                        Submitted
+                                    </th>
+
+                                    <th>
+                                        Actions
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody id="verificationTable">
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =================================================
+                 QUOTES
+            ================================================== -->
+
+            <section
+                id="quotes"
+                class="section"
+            >
+
+                <div class="section-header">
+
+                    <div>
+
+                        <h2>
+                            Quote Requests
+                        </h2>
+
+                        <p>
+                            Monitor customer quote requests.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="panel">
+
+
+                    <div class="table-wrapper">
+
+                        <table>
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>
+                                        Customer
+                                    </th>
+
+                                    <th>
+                                        Service / Subject
+                                    </th>
+
+                                    <th>
+                                        Business
+                                    </th>
+
+                                    <th>
+                                        Location
+                                    </th>
+
+                                    <th>
+                                        Status
+                                    </th>
+
+                                    <th>
+                                        Date
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody id="quotesTable">
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =================================================
+                 FEATURED LISTINGS
+            ================================================== -->
+
+            <section
+                id="featured"
+                class="section"
+            >
+
+                <div class="section-header">
+
+                    <div>
+
+                        <h2>
+                            Featured Listings
+                        </h2>
+
+                        <p>
+                            Manage promoted businesses and listings.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="panel">
+
+
+                    <div class="table-wrapper">
+
+                        <table>
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>
+                                        Business
+                                    </th>
+
+                                    <th>
+                                        Duration
+                                    </th>
+
+                                    <th>
+                                        Amount
+                                    </th>
+
+                                    <th>
+                                        Status
+                                    </th>
+
+                                    <th>
+                                        Created
+                                    </th>
+
+                                    <th>
+                                        Actions
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody id="featuredTable">
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =================================================
+                 PAYMENTS
+            ================================================== -->
+
+            <section
+                id="payments"
+                class="section"
+            >
+
+                <div class="section-header">
+
+                    <div>
+
+                        <h2>
+                            Payments
+                        </h2>
+
+                        <p>
+                            Monitor platform payments and revenue.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="panel">
+
+
+                    <div class="table-wrapper">
+
+                        <table>
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>
+                                        Transaction
+                                    </th>
+
+                                    <th>
+                                        Business
+                                    </th>
+
+                                    <th>
+                                        Amount
+                                    </th>
+
+                                    <th>
+                                        Method
+                                    </th>
+
+                                    <th>
+                                        Status
+                                    </th>
+
+                                    <th>
+                                        Date
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody id="paymentsTable">
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+        </section>
+
+    </main>
+
+
+
+    <!-- =====================================================
+         ADMIN JAVASCRIPT
+    ====================================================== -->
+
+    <script src="js/admin.js"></script>
+
+
+</body>
+
+</html>
