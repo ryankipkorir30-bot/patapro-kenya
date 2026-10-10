@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // CONFIGURATION
   // =========================================================
 
-  const API_BASE = "http://127.0.0.1:5000";
+  const API_BASE = "https://patapro-kenya-api.onrender.com";
   const API = `${API_BASE}/api`;
 
   const TOKEN_KEY = "patapro_token";
