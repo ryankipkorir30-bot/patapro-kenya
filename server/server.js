@@ -14,6 +14,7 @@ dotenv.config({
 });
 
 const app = express();
+app.set("trust proxy", 1);
 const PORT = Number(process.env.PORT) || 5000;
 
 const CLIENT_DIR = path.join(__dirname, "../client");
