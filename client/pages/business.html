@@ -554,10 +554,10 @@
 
         <section class="card">
           <h2>Rating</h2>
-          <div class="rating">
-            ⭐⭐⭐⭐⭐
-            <span id="ratingNumber" class="rating-number">0.0</span>
-          </div>
+<div class="rating">
+  <span id="ratingStars" aria-label="0 out of 5 stars">☆☆☆☆☆</span>
+  <span id="ratingNumber" class="rating-number">0.0</span>
+</div>
           <p id="reviewCount" class="review-count">0 reviews</p>
         </section>
 
@@ -876,9 +876,27 @@ if (typeof window.fbq === "function") {
     }
 
     // Rating data is displayed only if provided by the backend.
-    const rating = Number(business.rating || 0);
-    elements.rating.textContent =
-      Number.isFinite(rating) ? rating.toFixed(1) : "0.0";
+const parsedRating = Number(business.rating ?? 0);
+const rating = Number.isFinite(parsedRating)
+  ? Math.max(0, Math.min(5, parsedRating))
+  : 0;
+
+elements.rating.textContent = rating.toFixed(1);
+
+const fullStars = Math.floor(rating);
+const hasHalfStar = rating - fullStars >= 0.5;
+
+const stars =
+  "★".repeat(fullStars) +
+  (hasHalfStar ? "⯨" : "") +
+  "☆".repeat(5 - fullStars - (hasHalfStar ? 1 : 0));
+
+const ratingStars = document.getElementById("ratingStars");
+ratingStars.textContent = stars;
+ratingStars.setAttribute(
+  "aria-label",
+  `${rating.toFixed(1)} out of 5 stars`
+);
 
     const reviewCount = Number(business.review_count || 0);
     elements.reviewCount.textContent =
