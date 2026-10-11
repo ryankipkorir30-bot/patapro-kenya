@@ -445,6 +445,13 @@
           "✅ Quote request sent successfully!",
           "success"
         );
+        // Track a successfully submitted quote request in Meta Pixel.
+if (typeof window.fbq === "function") {
+  window.fbq("track", "Lead", {
+    content_name: "Quote Request",
+    content_category: "Local Services"
+  });
+}
 
         quoteForm.reset();
 
