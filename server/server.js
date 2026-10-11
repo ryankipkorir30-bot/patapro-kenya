@@ -41,12 +41,13 @@ app.use(
         defaultSrc: ["'self'"],
         baseUri: ["'self'"],
 
-        scriptSrc: [
-          "'self'",
-          "'unsafe-inline'",
-          "https://accounts.google.com",
-          "https://cdn.jsdelivr.net"
-        ],
+       scriptSrc: [
+  "'self'",
+  "'unsafe-inline'",
+  "https://accounts.google.com",
+  "https://cdn.jsdelivr.net",
+  "https://connect.facebook.net"
+],
 
         scriptSrcAttr: ["'unsafe-inline'"],
 
@@ -71,7 +72,9 @@ app.use(
           "http://127.0.0.1:5500",
           "http://localhost:5501",
           "http://127.0.0.1:5501",
-          "https://accounts.google.com"
+          "https://accounts.google.com",
+          "https://connect.facebook.net",
+          "https://www.facebook.com"
         ],
 
         frameSrc: [
