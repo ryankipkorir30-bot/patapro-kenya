@@ -751,12 +751,22 @@ const API_BASE = "/api";
         throw new Error("This business could not be found.");
       }
 
-      displayBusiness(business);
+   displayBusiness(business);
 
-      elements.loading.hidden = true;
-      elements.error.hidden = true;
-      elements.content.hidden = false;
+elements.loading.hidden = true;
+elements.error.hidden = true;
+elements.content.hidden = false;
 
+// Track a successfully loaded business profile in Meta Pixel.
+if (typeof window.fbq === "function") {
+  window.fbq("track", "ViewContent", {
+    content_name: String(
+      business.business_name || business.name || "Business"
+    ),
+    content_category: String(business.category || "General Services"),
+    content_type: "business"
+  });
+}
       // Load services separately so the business profile still appears
       // if the services endpoint temporarily fails.
       await loadServices(business.id);
