@@ -988,6 +988,63 @@ ratingStars.setAttribute(
           card.appendChild(price);
         }
 
+        const cartButton = document.createElement("button");
+        cartButton.type = "button";
+        cartButton.className = "btn btn-primary";
+        cartButton.textContent = "Add to Cart 🛒";
+
+        cartButton.addEventListener("click", async () => {
+          const token = localStorage.getItem("patapro_token");
+
+          if (!token) {
+            window.location.href =
+              `/pages/login.html?redirect=${encodeURIComponent(window.location.pathname + window.location.search)}`;
+            return;
+          }
+
+          if (!service.id) {
+            alert("This service is missing its ID. Please contact support.");
+            return;
+          }
+
+          cartButton.disabled = true;
+          cartButton.textContent = "Adding...";
+
+          try {
+            const response = await fetch(`${API_BASE}/cart`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+              },
+              body: JSON.stringify({
+                serviceId: Number(service.id),
+                quantity: 1
+              })
+            });
+
+            const result = await response.json();
+
+            if (!response.ok) {
+              throw new Error(result.message || "Could not add service to cart.");
+            }
+
+            cartButton.textContent = "Added ✓";
+            alert("Service added to your cart!");
+
+            const cartLink = document.createElement("a");
+            cartLink.href = "/pages/cart.html";
+            cartLink.className = "btn";
+            cartLink.textContent = "View Cart";
+            cartButton.replaceWith(cartLink);
+          } catch (error) {
+            alert(error.message || "Could not add service to cart.");
+            cartButton.disabled = false;
+            cartButton.textContent = "Add to Cart 🛒";
+          }
+        });
+
+        card.appendChild(cartButton);
         elements.services.appendChild(card);
       }
 

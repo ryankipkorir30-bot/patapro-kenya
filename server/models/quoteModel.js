@@ -100,6 +100,7 @@ async function findQuotesByCustomer(customerId) {
         q.subject,
         q.message,
         q.budget,
+        q.agreed_price,
         q.status,
 
         q.created_at,
@@ -148,6 +149,7 @@ async function findQuotesByBusiness(businessId) {
         q.subject,
         q.message,
         q.budget,
+        q.agreed_price,
         q.status,
 
         q.created_at,
@@ -213,6 +215,25 @@ async function updateQuoteStatus(
 }
 
 
+async function proposeQuotePrice(quoteId, businessId, agreedPrice) {
+  const result = await pool.query(
+    `
+      UPDATE quotes
+      SET
+        agreed_price = $1,
+        status = 'responded',
+        updated_at = CURRENT_TIMESTAMP
+      WHERE id = $2
+        AND business_id = $3
+        AND status IN ('pending', 'viewed', 'responded')
+      RETURNING *
+    `,
+    [agreedPrice, quoteId, businessId]
+  );
+
+  return result.rows[0];
+}
+
 // Check whether a business belongs to a user
 async function businessBelongsToUser(
   businessId,
@@ -237,13 +258,126 @@ async function businessBelongsToUser(
 
   return result.rows.length > 0;
 }
+// Accept a proposed quote and create an order atomically
+async function acceptQuoteAndCreateOrder(quoteId, customerId) {
+  const client = await pool.connect();
 
+  try {
+    await client.query("BEGIN");
 
+    // Lock the quote so it cannot be accepted twice concurrently.
+    const quoteResult = await client.query(
+      `
+        SELECT
+          q.id,
+          q.customer_id,
+          q.business_id,
+          q.service_id,
+          q.agreed_price,
+          q.status,
+          s.name AS service_name,
+          b.business_name
+        FROM quotes q
+        JOIN businesses b ON b.id = q.business_id
+        LEFT JOIN services s ON s.id = q.service_id
+        WHERE q.id = $1
+          AND q.customer_id = $2
+        FOR UPDATE OF q
+      `,
+      [quoteId, customerId]
+    );
+
+    const quote = quoteResult.rows[0];
+
+    if (!quote) {
+      throw new Error("QUOTE_NOT_FOUND");
+    }
+
+    if (quote.status !== "responded" || quote.agreed_price === null) {
+      throw new Error("QUOTE_NOT_READY");
+    }
+
+    if (!quote.service_id || !quote.service_name) {
+      throw new Error("QUOTE_SERVICE_REQUIRED");
+    }
+
+    const agreedPrice = Number(quote.agreed_price);
+
+    if (!Number.isFinite(agreedPrice) || agreedPrice < 0) {
+      throw new Error("INVALID_AGREED_PRICE");
+    }
+
+    // Create the order at the proposed price, not the catalogue price.
+    const orderResult = await client.query(
+      `
+        INSERT INTO orders (customer_id, total_amount)
+        VALUES ($1, $2)
+        RETURNING id, customer_id, status, total_amount, created_at
+      `,
+      [customerId, agreedPrice]
+    );
+
+    const order = orderResult.rows[0];
+
+    await client.query(
+      `
+        INSERT INTO order_items (
+          order_id,
+          service_id,
+          service_name,
+          business_name,
+          quantity,
+          unit_price,
+          subtotal
+        )
+        VALUES ($1, $2, $3, $4, 1, $5, $5)
+      `,
+      [
+        order.id,
+        quote.service_id,
+        quote.service_name,
+        quote.business_name,
+        agreedPrice
+      ]
+    );
+
+    const acceptedResult = await client.query(
+      `
+        UPDATE quotes
+        SET status = 'accepted',
+            updated_at = CURRENT_TIMESTAMP
+        WHERE id = $1
+          AND customer_id = $2
+          AND status = 'responded'
+        RETURNING *
+      `,
+      [quoteId, customerId]
+    );
+
+    if (!acceptedResult.rowCount) {
+      throw new Error("QUOTE_NOT_READY");
+    }
+
+    await client.query("COMMIT");
+
+    return {
+      order,
+      quote: acceptedResult.rows[0]
+    };
+  } catch (error) {
+    await client.query("ROLLBACK");
+    throw error;
+  } finally {
+    client.release();
+  }
+}
 module.exports = {
   createQuote,
   findQuoteById,
   findQuotesByCustomer,
   findQuotesByBusiness,
   updateQuoteStatus,
-  businessBelongsToUser
+  proposeQuotePrice,
+  businessBelongsToUser,
+  acceptQuoteAndCreateOrder
 };
