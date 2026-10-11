@@ -150,9 +150,23 @@
         <div class="form-group"><label for="phone">Phone</label><input id="phone" type="tel"></div>
         <div class="form-group"><label for="whatsapp">WhatsApp</label><input id="whatsapp" type="tel"></div>
         <div class="form-group"><label for="businessEmail">Email</label><input type="email" id="businessEmail"></div>
-        <div class="form-group"><label for="county">County</label><input id="county"></div>
-        <div class="form-group"><label for="town">Town</label><input id="town"></div>
-        <div class="form-group"><label for="location">Location</label><input id="location"></div>
+        <div class="form-group">
+          <label for="county">County</label>
+          <input id="county" autocomplete="address-level1" placeholder="e.g. Kiambu">
+        </div>
+        <div class="form-group">
+          <label for="town">Town / City</label>
+          <input id="town" autocomplete="address-level2" placeholder="e.g. Thika">
+        </div>
+        <div class="form-group">
+          <label for="location">Location / Street / Area</label>
+          <input id="location" autocomplete="street-address" placeholder="e.g. Makongeni, Thika">
+        </div>
+        <div class="form-group">
+          <button class="secondary" type="button" id="detectLocationButton">📍 Use My Current Location</button>
+          <small id="locationStatus" role="status" aria-live="polite">Click to detect your location. Your browser will ask permission.</small>
+          <small>Location lookup uses OpenStreetMap contributors.</small>
+        </div>
         <button class="primary" type="submit" id="saveBusinessButton">Save Business</button>
       </form>
       <div id="businessList"></div>
@@ -220,7 +234,7 @@
 <script>
 "use strict";
 
-const API_BASE = "/api";
+const API_BASE = "http://localhost:5000/api";
 const token = localStorage.getItem("patapro_token");
 const userJSON = localStorage.getItem("patapro_user");
 
@@ -785,6 +799,84 @@ document.getElementById("logoutBtn").addEventListener("click", () => {
   localStorage.removeItem("patapro_token");
   localStorage.removeItem("patapro_user");
   window.location.href = "login.html";
+});
+
+/* DETECT CURRENT LOCATION */
+const detectLocationButton = document.getElementById("detectLocationButton");
+const locationStatus = document.getElementById("locationStatus");
+
+function getAddressPart(address, keys) {
+  for (const key of keys) {
+    if (address[key]) return address[key];
+  }
+  return "";
+}
+
+detectLocationButton.addEventListener("click", () => {
+  if (!navigator.geolocation) {
+    locationStatus.textContent = "This browser does not support location detection. Enter your location manually.";
+    return;
+  }
+
+  detectLocationButton.disabled = true;
+  detectLocationButton.textContent = "Detecting location...";
+  locationStatus.textContent = "Waiting for your device location permission...";
+
+  navigator.geolocation.getCurrentPosition(async position => {
+    try {
+      const { latitude, longitude } = position.coords;
+      locationStatus.textContent = "Location found. Looking up the nearby address...";
+
+      const url = new URL("https://nominatim.openstreetmap.org/reverse");
+      url.searchParams.set("format", "jsonv2");
+      url.searchParams.set("lat", latitude);
+      url.searchParams.set("lon", longitude);
+      url.searchParams.set("zoom", "18");
+      url.searchParams.set("addressdetails", "1");
+
+      const response = await fetch(url.toString(), {
+        headers: { "Accept": "application/json", "Accept-Language": "en" }
+      });
+      if (!response.ok) throw new Error("Address lookup is temporarily unavailable.");
+
+      const result = await response.json();
+      const address = result.address || {};
+      const county = getAddressPart(address, ["county", "state_district", "state"]);
+      const town = getAddressPart(address, ["city", "town", "municipality", "village", "suburb", "city_district"]);
+      const street = getAddressPart(address, ["road", "pedestrian", "residential", "neighbourhood", "suburb", "quarter", "village"]);
+
+      if (county) document.getElementById("county").value = county;
+      if (town) document.getElementById("town").value = town;
+      if (street || result.display_name) {
+        document.getElementById("location").value = [street, town, county].filter(Boolean).filter((value, index, array) => array.indexOf(value) === index).join(", ") || result.display_name || "";
+      }
+
+      if (!county && !town && !street && !result.display_name) {
+        locationStatus.textContent = "Your coordinates were detected, but no readable address was returned. Please enter your location manually.";
+      } else {
+        locationStatus.textContent = "Location filled in. Please check the fields and click Save Business to store them.";
+      }
+    } catch (error) {
+      console.error("Reverse geocoding error:", error);
+      locationStatus.textContent = "Your device location was detected, but the address lookup failed. Please enter the town, county and area manually.";
+    } finally {
+      detectLocationButton.disabled = false;
+      detectLocationButton.textContent = "📍 Use My Current Location";
+    }
+  }, error => {
+    const messages = {
+      1: "Location permission was denied. Allow location access in your browser settings, or enter the address manually.",
+      2: "Your location could not be determined. Turn on device location services and try again.",
+      3: "Location detection timed out. Try again or enter your location manually."
+    };
+    locationStatus.textContent = messages[error.code] || "Could not detect location. Please enter it manually.";
+    detectLocationButton.disabled = false;
+    detectLocationButton.textContent = "📍 Use My Current Location";
+  }, {
+    enableHighAccuracy: true,
+    timeout: 15000,
+    maximumAge: 60000
+  });
 });
 
 /* START */
