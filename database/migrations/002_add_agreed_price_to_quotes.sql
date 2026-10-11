@@ -1,0 +1,2 @@
+ALTER TABLE quotes
+ADD COLUMN IF NOT EXISTS agreed_price NUMERIC(12,2);
