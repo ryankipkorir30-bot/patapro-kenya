@@ -793,12 +793,24 @@ if (typeof window.fbq === "function") {
 
     document.title = `${name} | PataPro Kenya 🇰🇪`;
 
-    const location = [
-      business.town,
-      business.county
-    ].filter(Boolean).join(", ") || business.location || "Kenya";
+const countryNames = ["kenya"];
 
-    elements.location.textContent = safeText(location);
+const town = String(business.town || "").trim();
+const county = String(business.county || "").trim();
+const fallbackLocation = String(business.location || "").trim();
+
+const validCounty =
+  county && !countryNames.includes(county.toLowerCase())
+    ? county
+    : "";
+
+const locationParts = [town, validCounty].filter(Boolean);
+
+const location = locationParts.length
+  ? [...new Set(locationParts)].join(", ")
+  : fallbackLocation || "Kenya";
+
+elements.location.textContent = safeText(location);
 
     const phone = safeText(business.phone, "");
     const email = safeText(business.email, "");
