@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script src="../js/api-config.js"></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Business Dashboard | PataPro Kenya</title>
@@ -231,10 +232,171 @@
   </section>
 </main>
 
+
+<style id="sellerProductsStyles">
+#sellerProductsSection {
+  margin: 28px 0;
+  padding: 24px;
+  border: 1px solid rgba(148,163,184,.25);
+  border-radius: 18px;
+  background: var(--card-bg, #111827);
+  color: var(--text-color, #f8fafc);
+}
+#sellerProductsSection * { box-sizing: border-box; }
+#sellerProductsSection .sp-grid {
+  display: grid;
+  grid-template-columns: repeat(2,minmax(0,1fr));
+  gap: 14px;
+}
+#sellerProductsSection input,
+#sellerProductsSection textarea,
+#sellerProductsSection select {
+  width: 100%;
+  margin-top: 6px;
+  padding: 12px;
+  border: 1px solid #475569;
+  border-radius: 10px;
+  background: #0f172a;
+  color: #f8fafc;
+  font: inherit;
+}
+#sellerProductsSection textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+#sellerProductsSection .sp-field { margin-bottom: 14px; }
+#sellerProductsSection .sp-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+#sellerProductsSection .sp-btn {
+  padding: 10px 14px;
+  border: 0;
+  border-radius: 9px;
+  cursor: pointer;
+  font-weight: 700;
+  background: #2563eb;
+  color: white;
+}
+#sellerProductsSection .sp-btn.secondary { background: #475569; }
+#sellerProductsSection .sp-btn.archive { background: #b91c1c; }
+#sellerProductsSection .sp-btn:disabled { opacity: .6; cursor: wait; }
+#sellerProductsSection .sp-message {
+  margin: 12px 0;
+  padding: 12px;
+  border-radius: 9px;
+  white-space: pre-wrap;
+}
+#sellerProductsSection .sp-success {
+  background: rgba(22,163,74,.15);
+  color: #86efac;
+}
+#sellerProductsSection .sp-error {
+  background: rgba(220,38,38,.15);
+  color: #fca5a5;
+}
+#sellerProductsSection .sp-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(230px,1fr));
+  gap: 14px;
+  margin-top: 18px;
+}
+#sellerProductsSection .sp-product {
+  padding: 16px;
+  border: 1px solid rgba(148,163,184,.25);
+  border-radius: 14px;
+  overflow-wrap: anywhere;
+}
+#sellerProductsSection .sp-product img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+#sellerProductsSection .sp-status {
+  display: inline-block;
+  padding: 5px 9px;
+  margin: 6px 0;
+  border-radius: 20px;
+  background: #334155;
+  font-size: 12px;
+  font-weight: 700;
+}
+#sellerProductsSection .sp-status.published { background: #166534; }
+#sellerProductsSection .sp-status.draft { background: #854d0e; }
+#sellerProductsSection .sp-status.archived { background: #7f1d1d; }
+#sellerProductsSection .sp-muted { opacity: .75; font-size: 13px; }
+@media(max-width:600px) {
+  #sellerProductsSection { padding: 15px; }
+  #sellerProductsSection .sp-grid { grid-template-columns: 1fr; }
+}
+</style>
+
+<section id="sellerProductsSection">
+  <div style="display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap">
+    <div>
+      <h2>Marketplace Products</h2>
+      <p class="sp-muted">List products, manage stock, and track approval status.</p>
+    </div>
+    <button type="button" class="sp-btn secondary" id="spRefresh">Refresh Listings</button>
+  </div>
+
+  <div id="spMessage" class="sp-message" hidden aria-live="polite"></div>
+
+  <form id="spProductForm">
+    <h3 id="spFormTitle">Create Product Listing</h3>
+    <input type="hidden" id="spProductId">
+
+    <div class="sp-grid">
+      <div class="sp-field">
+        <label for="spName">Product name *</label>
+        <input id="spName" maxlength="180" required>
+      </div>
+      <div class="sp-field">
+        <label for="spCategory">Category *</label>
+        <input id="spCategory" maxlength="100" placeholder="e.g. Electronics" required>
+      </div>
+      <div class="sp-field">
+        <label for="spPrice">Price (KES) *</label>
+        <input id="spPrice" type="number" min="0" step="0.01" required>
+      </div>
+      <div class="sp-field">
+        <label for="spStock">Stock quantity *</label>
+        <input id="spStock" type="number" min="0" step="1" required>
+      </div>
+    </div>
+
+    <div class="sp-field">
+      <label for="spDescription">Description *</label>
+      <textarea id="spDescription" required></textarea>
+    </div>
+
+    <div class="sp-field">
+      <label for="spImageUrl">Product image URL (optional)</label>
+      <input id="spImageUrl" type="url" placeholder="https://example.com/product.jpg">
+    </div>
+
+    <div class="sp-actions">
+      <button class="sp-btn" id="spSubmit" type="submit">Submit for Approval</button>
+      <button class="sp-btn secondary" id="spCancelEdit" type="button" hidden>Cancel Edit</button>
+    </div>
+    <p class="sp-muted">New listings are drafts until approved by an administrator.</p>
+  </form>
+
+  <hr style="margin:24px 0;border-color:#475569">
+  <h3>Your Listings</h3>
+  <div id="spProductList" class="sp-list">
+    <p>Listings will appear here when loaded.</p>
+  </div>
+</section>
+
 <script>
 "use strict";
 
-const API_BASE = "http://localhost:5000/api";
+const API_BASE = window.PATAPRO_API_BASE || "/api";
 const token = localStorage.getItem("patapro_token");
 const userJSON = localStorage.getItem("patapro_user");
 
@@ -882,5 +1044,6 @@ detectLocationButton.addEventListener("click", () => {
 /* START */
 if (token) loadBusiness();
 </script>
+  <script src="../js/seller-products.js"></script>
 </body>
 </html>

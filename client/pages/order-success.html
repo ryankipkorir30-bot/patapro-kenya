@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b1220">
+  <title>Order Confirmation | PataPro Kenya</title>
+  <link rel="stylesheet" href="../css/order-success.css">
+  <script src="../js/api-config.js"></script>
+  <script src="../js/order-success.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="marketplace.html">
+      <span class="brand-icon">P</span>
+      <span>PataPro <small>KENYA</small></span>
+    </a>
+  </header>
+
+  <main class="confirmation">
+    <section class="confirmation-card">
+      <div class="success-icon" aria-hidden="true">✓</div>
+
+      <p class="eyebrow">PATAPRO KENYA</p>
+      <h1>Thank you for your order!</h1>
+
+      <p class="description">
+        Your order has been submitted. Keep your reference number
+        for future enquiries.
+      </p>
+
+      <div class="order-reference">
+        <span>YOUR ORDER REFERENCE</span>
+        <strong id="orderReference">Loading…</strong>
+        <button id="copyReference" type="button">Copy reference</button>
+      </div>
+
+      <div class="notice">
+        <strong>What happens next?</strong>
+        <p>
+          Your order details should be reviewed by the relevant seller.
+          Payment and delivery arrangements must be confirmed separately
+          unless the platform provides a verified confirmation.
+        </p>
+      </div>
+
+      <p id="pageMessage" class="page-message" role="status" hidden></p>
+
+      <div class="actions">
+        <a class="primary-button" href="marketplace.html">
+          Continue shopping
+        </a>
+        <a class="secondary-button" href="my-orders.html">
+          View my orders
+        </a>
+      </div>
+
+      <a class="home-link" href="index.html">Back to PataPro home</a>
+    </section>
+  </main>
+
+  <footer>
+    © <span id="year"></span> PataPro Kenya · Shop local, support local.
+  </footer>
+</body>
+</html>

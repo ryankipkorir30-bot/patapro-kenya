@@ -1,5 +1,5 @@
 
-const APP_API_BASE = "/api";
+const APP_API_BASE = window.PATAPRO_API_BASE || "/api";
 
 const STORAGE_KEYS = {
     token: "patapro_token",

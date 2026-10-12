@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b1220">
+  <title>Checkout | PataPro Kenya</title>
+  <link rel="stylesheet" href="../css/checkout.css">
+  <script src="../js/api-config.js"></script>
+  <script src="../js/checkout.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="marketplace.html">
+      <span class="brand-icon">P</span>
+      <span>PataPro <small>KENYA</small></span>
+    </a>
+    <a class="back-link" href="cart.html">← Back to cart</a>
+  </header>
+
+  <main class="checkout-container">
+    <section class="page-heading">
+      <span class="eyebrow">SECURE CHECKOUT</span>
+      <h1>Complete your order</h1>
+      <p>Enter your delivery details to continue.</p>
+    </section>
+
+    <div id="message" class="message" role="alert" hidden></div>
+
+    <div class="checkout-layout">
+      <section class="checkout-card">
+        <form id="checkoutForm">
+          <h2>01. Delivery information</h2>
+
+          <div class="form-grid">
+            <div class="field full">
+              <label for="fullName">Full name *</label>
+              <input id="fullName" name="fullName" type="text"
+                     autocomplete="name" maxlength="120" required>
+            </div>
+
+            <div class="field">
+              <label for="phone">Phone number *</label>
+              <input id="phone" name="phone" type="tel"
+                     autocomplete="tel" placeholder="07XXXXXXXX"
+                     maxlength="20" required>
+            </div>
+
+            <div class="field">
+              <label for="email">Email (optional)</label>
+              <input id="email" name="email" type="email"
+                     autocomplete="email" maxlength="160">
+            </div>
+
+            <div class="field">
+              <label for="county">County *</label>
+              <input id="county" name="county" type="text"
+                     placeholder="e.g. Kiambu" maxlength="100" required>
+            </div>
+
+            <div class="field">
+              <label for="town">Town / area *</label>
+              <input id="town" name="town" type="text"
+                     placeholder="e.g. Thika" maxlength="100" required>
+            </div>
+
+            <div class="field full">
+              <label for="address">Delivery address *</label>
+              <textarea id="address" name="address" rows="3"
+                        placeholder="Estate, building, street or delivery directions"
+                        maxlength="500" required></textarea>
+            </div>
+
+            <div class="field full">
+              <label for="notes">Additional instructions (optional)</label>
+              <textarea id="notes" name="notes" rows="2"
+                        placeholder="Any instructions for the seller?"
+                        maxlength="1000"></textarea>
+            </div>
+          </div>
+
+          <div class="form-divider"></div>
+
+          <h2>02. Payment preference</h2>
+
+          <div class="payment-option">
+            <input id="cod" type="radio" name="paymentMethod"
+                   value="cash_on_delivery" checked>
+            <label for="cod">
+              <strong>Cash on delivery</strong>
+              <span>Pay when your order is delivered, if the seller offers it.</span>
+            </label>
+          </div>
+
+          <div class="payment-option">
+            <input id="mpesa" type="radio" name="paymentMethod" value="mpesa">
+            <label for="mpesa">
+              <strong>M-Pesa</strong>
+              <span>Payment must be confirmed by the platform or seller.</span>
+            </label>
+          </div>
+
+          <p class="payment-note">
+            Selecting a payment method does not make a payment.
+            Do not send money until you receive verified payment instructions.
+          </p>
+
+          <button id="placeOrderBtn" class="primary-btn" type="submit">
+            Place order
+          </button>
+
+          <p class="terms-note">
+            Your order will be submitted to PataPro for processing.
+          </p>
+        </form>
+      </section>
+
+      <aside class="checkout-card summary-card">
+        <h2>Your order</h2>
+        <div id="orderItems" class="order-items">
+          <p>Loading cart…</p>
+        </div>
+
+        <div class="summary-line">
+          <span>Subtotal</span>
+          <strong id="subtotal">KSh 0.00</strong>
+        </div>
+        <div class="summary-line">
+          <span>Delivery</span>
+          <span>Confirmed by seller</span>
+        </div>
+        <div class="summary-total">
+          <span>Estimated total</span>
+          <strong id="total">KSh 0.00</strong>
+        </div>
+
+        <a href="cart.html" class="edit-cart">Edit your cart</a>
+      </aside>
+    </div>
+  </main>
+
+  <footer>
+    <p>© <span id="year"></span> PataPro Kenya · Shop local, support local.</p>
+  </footer>
+</body>
+</html>

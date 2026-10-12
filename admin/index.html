@@ -147,6 +147,12 @@
 
             </a>
 
+            <a href="#" class="nav-link" data-section="products">
+                <i class="fa-solid fa-box"></i>
+                <span>Product Approvals</span>
+            </a>
+
+
 
             <a
                 href="#"
@@ -743,7 +749,42 @@
                  VERIFICATION
             ================================================== -->
 
-            <section
+            
+            <!-- PRODUCT APPROVALS -->
+            <section id="products" class="section">
+                <div class="section-header">
+                    <div>
+                        <h2>Product Approvals</h2>
+                        <p>Review seller products before they appear publicly.</p>
+                    </div>
+                    <button type="button" class="primary-btn" id="refreshProducts">
+                        <i class="fa-solid fa-rotate"></i> Refresh
+                    </button>
+                </div>
+
+                <div class="panel">
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Seller</th>
+                                    <th>Category</th>
+                                    <th>Price</th>
+                                    <th>Stock</th>
+                                    <th>Submitted</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="pendingProductsTable">
+                                <tr><td colspan="7">Open Product Approvals to load pending products.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+<section
                 id="verifications"
                 class="section"
             >

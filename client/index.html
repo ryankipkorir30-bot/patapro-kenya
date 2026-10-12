@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script src="js/api-config.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -334,6 +335,7 @@
         }
     </style>
 <script src="/js/meta-pixel.js" defer></script>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
@@ -347,9 +349,13 @@
         <nav>
             <a href="index.html">Home</a>
             <a href="pages/services.html">Services</a>
+            <a href="pages/marketplace.html">Marketplace</a>
             <a href="pages/register.html">Register Business</a>
             <a href="pages/login.html">Login</a>
-        </nav>
+        
+  <a href="pages/my-orders.html">My Orders</a>
+  <a href="pages/customer-dashboard.html">Dashboard</a>
+</nav>
     </div>
 </header>
 
@@ -426,7 +432,7 @@
     // API CONFIGURATION
     // ==========================================
 
-    const API_BASE = "/api";
+    const API_BASE = window.PATAPRO_API_BASE || "/api";
 
     let allBusinesses = [];
 

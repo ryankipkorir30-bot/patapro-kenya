@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b1220">
+  <title>My Orders | PataPro Kenya</title>
+  <link rel="stylesheet" href="../css/my-orders.css">
+  <script src="../js/api-config.js"></script>
+  <script src="../js/my-orders.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="marketplace.html">
+      <span class="brand-icon">P</span>
+      <span>PataPro <small>KENYA</small></span>
+    </a>
+
+    <nav>
+      <a href="marketplace.html">Marketplace</a>
+      <a href="cart.html">My Cart</a>
+    
+  <a href="my-orders.html">My Orders</a>
+  <a href="customer-dashboard.html">Dashboard</a>
+</nav>
+  </header>
+
+  <main class="container">
+    <section class="heading">
+      <div>
+        <span class="eyebrow">CUSTOMER ACCOUNT</span>
+        <h1>My Orders</h1>
+        <p>Track your purchases and review your order history.</p>
+      </div>
+
+      <a class="shop-btn" href="marketplace.html">＋ Continue shopping</a>
+    </section>
+
+    <section class="stats">
+      <article class="stat-card">
+        <span>Total orders</span>
+        <strong id="totalOrders">—</strong>
+      </article>
+      <article class="stat-card">
+        <span>Processing</span>
+        <strong id="processingOrders">—</strong>
+      </article>
+      <article class="stat-card">
+        <span>Completed</span>
+        <strong id="completedOrders">—</strong>
+      </article>
+    </section>
+
+    <section class="orders-panel">
+      <div class="panel-heading">
+        <div>
+          <h2>Order history</h2>
+          <p>Your latest orders appear here.</p>
+        </div>
+
+        <label class="filter-label">
+          <span class="sr-only">Filter orders by status</span>
+          <select id="statusFilter">
+            <option value="all">All statuses</option>
+            <option value="pending">Pending</option>
+            <option value="processing">Processing</option>
+            <option value="completed">Completed</option>
+            <option value="cancelled">Cancelled</option>
+          </select>
+        </label>
+      </div>
+
+      <div id="message" class="message" role="status">
+        Loading your orders…
+      </div>
+
+      <div id="ordersList" class="orders-list"></div>
+    </section>
+  </main>
+
+  <footer>
+    © <span id="year"></span> PataPro Kenya · Shop local, support local.
+  </footer>
+</body>
+</html>

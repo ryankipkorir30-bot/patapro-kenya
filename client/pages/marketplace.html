@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Discover products and shop with PataPro Kenya.">
+  <title>Marketplace | PataPro Kenya</title>
+  <link rel="stylesheet" href="../css/marketplace.css">
+  <script src="../js/api-config.js"></script>
+  <script src="../js/marketplace.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="../index.html">
+      <span class="brand-icon">P</span>
+      <span>PataPro <small>KENYA</small></span>
+    </a>
+
+    <nav class="header-links">
+      <a class="active" href="marketplace.html">Marketplace</a>
+      <a href="services.html">Services</a>
+      <a href="register.html">Register</a>
+      <a href="../index.html">Home</a>
+      <a href="login.html">Login</a>
+    
+  <a href="my-orders.html">My Orders</a>
+  <a href="customer-dashboard.html">Dashboard</a>
+</nav>
+
+    <a class="cart-link" href="cart.html">
+      🛒 Cart <span id="cartCount">0</span>
+    </a>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-copy">
+        <span class="eyebrow">YOUR LOCAL MARKETPLACE</span>
+        <h1>Find what you need.<br><span>Shop with confidence.</span></h1>
+        <p>Discover products from sellers across Kenya, all in one place.</p>
+
+        <form id="searchForm" class="search-form">
+          <span>⌕</span>
+          <input id="searchInput" type="search"
+                 placeholder="Search products..." aria-label="Search products">
+          <button type="submit">Search</button>
+        </form>
+      </div>
+
+      <div class="hero-art" aria-hidden="true">
+        <div class="art-circle">🛍️</div>
+        <span class="floating-tag tag-one">Discover</span>
+        <span class="floating-tag tag-two">Shop local</span>
+      </div>
+    </section>
+
+    <section class="catalogue">
+      <div class="section-heading">
+        <div>
+          <span class="eyebrow">EXPLORE</span>
+          <h2>Products for you</h2>
+          <p id="resultSummary">Discover available products.</p>
+        </div>
+        <label class="sort-control">
+          Sort
+          <select id="sortSelect">
+            <option value="newest">Newest first</option>
+            <option value="price-low">Price: low to high</option>
+            <option value="price-high">Price: high to low</option>
+            <option value="name">Name: A–Z</option>
+          </select>
+        </label>
+      </div>
+
+      <div id="categoryFilters" class="category-filters">
+        <button class="category-chip active" data-category="">All products</button>
+      </div>
+
+      <div id="loadingState" class="state-panel">
+        <div class="spinner"></div>
+        <p>Loading products from PataPro...</p>
+      </div>
+
+      <div id="errorState" class="state-panel hidden">
+        <h3>We couldn't load products</h3>
+        <p id="errorMessage">Please try again.</p>
+        <button id="retryButton" class="primary-button">Try again</button>
+      </div>
+
+      <div id="emptyState" class="state-panel hidden">
+        <div class="empty-icon">🔎</div>
+        <h3>No products found</h3>
+        <p>Try another search or choose a different category.</p>
+        <button id="clearFiltersButton" class="secondary-button">Clear filters</button>
+      </div>
+
+      <div id="productGrid" class="product-grid"></div>
+
+      <div class="seller-callout">
+        <div>
+          <span class="eyebrow">SELL ON PATAPRO</span>
+          <h2>Have products to sell?</h2>
+          <p>Create a seller account and start listing your products.</p>
+        </div>
+        <a href="register.html" class="primary-button">Join as a seller →</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <a class="brand" href="../index.html">PataPro <small>KENYA</small></a>
+    <p>Discover local products. Support local businesses.</p>
+    <span>© <span id="year"></span> PataPro Kenya</span>
+  </footer>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

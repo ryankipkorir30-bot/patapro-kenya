@@ -1,448 +1,118 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Cart | PataPro Kenya</title>
-    <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body {
-            font-family: Arial, sans-serif;
-            background: #f4f7fb;
-            color: #10233f;
-        }
-        header { background: #071a33; color: white; }
-        .nav {
-            max-width: 1100px; margin: auto; padding: 18px 20px;
-            display: flex; justify-content: space-between;
-            align-items: center; gap: 15px; flex-wrap: wrap;
-        }
-        .logo { font-size: 23px; font-weight: 800; }
-        .logo span { color: #38bdf8; }
-        nav { display: flex; gap: 10px; flex-wrap: wrap; }
-        nav a {
-            color: white; text-decoration: none; padding: 10px 12px;
-            border-radius: 8px;
-        }
-        nav a:hover { background: #0066ff; }
-        .container { max-width: 1100px; margin: auto; padding: 40px 20px; }
-        .heading { margin-bottom: 25px; }
-        .heading h1 { font-size: clamp(28px, 5vw, 40px); margin-bottom: 8px; }
-        .heading p { color: #687386; line-height: 1.6; }
-        .layout {
-            display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(280px, 1fr);
-            gap: 22px; align-items: start;
-        }
-        .panel {
-            background: white; border: 1px solid #e4eaf2;
-            border-radius: 16px; padding: 22px;
-            box-shadow: 0 8px 25px rgba(15,35,65,.05);
-        }
-        .panel h2 { font-size: 21px; margin-bottom: 18px; }
-        .cart-item {
-            display: grid; grid-template-columns: 1fr auto;
-            gap: 15px; padding: 18px 0; border-bottom: 1px solid #e8edf4;
-        }
-        .cart-item:first-of-type { padding-top: 0; }
-        .item-name { font-weight: 700; font-size: 17px; margin-bottom: 7px; }
-        .muted { color: #687386; font-size: 14px; line-height: 1.6; }
-        .item-price { font-weight: 700; margin-top: 9px; }
-        .quantity {
-            display: flex; align-items: center; gap: 10px; margin-top: 13px;
-        }
-        .quantity button, .remove-btn {
-            cursor: pointer; border: 1px solid #d7dfeb;
-            background: white; border-radius: 7px; padding: 7px 11px;
-        }
-        .quantity button:hover { background: #eaf2ff; }
-        .remove-btn { color: #b42318; margin-top: 10px; }
-        .summary-row {
-            display: flex; justify-content: space-between; gap: 15px;
-            padding: 12px 0; color: #4d5c70;
-        }
-        .summary-total {
-            border-top: 1px solid #e4eaf2; margin-top: 5px;
-            padding-top: 18px; font-size: 20px; font-weight: 800; color: #10233f;
-        }
-        label { display: block; font-weight: 700; margin: 17px 0 8px; }
-        input, textarea {
-            width: 100%; padding: 12px; border: 1px solid #d7dfeb;
-            border-radius: 9px; font: inherit; outline: none;
-        }
-        input:focus, textarea:focus {
-            border-color: #0066ff; box-shadow: 0 0 0 3px rgba(0,102,255,.1);
-        }
-        textarea { min-height: 90px; resize: vertical; }
-        .primary-btn, .secondary-btn {
-            width: 100%; padding: 13px; border: 0; border-radius: 9px;
-            cursor: pointer; font-weight: 700; font-size: 15px; margin-top: 15px;
-        }
-        .primary-btn { background: #0066ff; color: white; }
-        .primary-btn:hover { background: #004dcc; }
-        .primary-btn:disabled { opacity: .55; cursor: not-allowed; }
-        .secondary-btn { background: #eaf2ff; color: #0052cc; }
-        .message {
-            display: none; padding: 13px; border-radius: 9px;
-            margin-bottom: 18px; line-height: 1.5;
-        }
-        .message.show { display: block; }
-        .message.error { color: #9f1d16; background: #fff0ee; }
-        .message.success { color: #087a3d; background: #e7f8ee; }
-        .empty { text-align: center; padding: 45px 15px; }
-        .empty .icon { font-size: 45px; margin-bottom: 15px; }
-        .empty p { color: #687386; line-height: 1.6; margin: 10px 0 18px; }
-        .empty a { color: #0066ff; font-weight: 700; text-decoration: none; }
-        .notice {
-            background: #fff7df; color: #755400; padding: 12px;
-            border-radius: 9px; margin-top: 14px; font-size: 13px; line-height: 1.6;
-        }
-        footer { text-align: center; padding: 30px 15px; color: #687386; }
-        @media (max-width: 760px) {
-            .layout { grid-template-columns: 1fr; }
-            .container { padding: 28px 14px; }
-            .panel { padding: 17px; }
-        }
-    </style>
+  <script src="../js/api-config.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Review your shopping cart on PataPro Kenya.">
+  <title>Shopping Cart | PataPro Kenya</title>
+  <link rel="stylesheet" href="../css/cart.css">
+  <script src="../js/cart.js" defer></script>
 </head>
 <body>
-<header>
-    <div class="nav">
-        <div class="logo">PataPro <span>Kenya 🇰🇪</span></div>
-        <nav>
-            <a href="/index.html">Home</a>
-            <a href="/pages/services.html">Services</a>
-            <a href="/pages/cart.html">🛒 My Cart</a>
-            <a href="/pages/login.html">Login</a>
-        </nav>
+  <header class="header">
+    <a class="brand" href="marketplace.html">
+      <span class="brand-icon">P</span>
+      <span>PataPro <small>KENYA</small></span>
+    </a>
+
+    <nav>
+      <a href="../index.html">Home</a>
+      <a href="marketplace.html">Marketplace</a>
+    
+  <a href="my-orders.html">My Orders</a>
+  <a href="customer-dashboard.html">Dashboard</a>
+</nav>
+
+    <a href="cart.html" class="cart-link">
+      🛒 Cart <span id="cartCount">0</span>
+    </a>
+  </header>
+
+  <main class="container">
+    <div class="breadcrumb">
+      <a href="marketplace.html">Marketplace</a>
+      <span>/</span>
+      <span>Shopping cart</span>
     </div>
-</header>
 
-<main class="container">
-    <div class="heading">
-        <h1>🛒 My Shopping Cart</h1>
-        <p>Review your selected services before placing an order.</p>
+    <div class="page-heading">
+      <div>
+        <span class="eyebrow">YOUR SHOPPING BAG</span>
+        <h1>Shopping cart</h1>
+        <p>Review your products before proceeding to checkout.</p>
+      </div>
+      <a href="marketplace.html" class="continue-link">← Continue shopping</a>
     </div>
 
-    <div id="message" class="message" role="status" aria-live="polite"></div>
+    <div class="cart-layout">
+      <section class="cart-panel">
+        <div class="panel-heading">
+          <h2>Your items</h2>
+          <span id="itemSummary">0 items</span>
+        </div>
 
-    <div class="layout">
-        <section class="panel">
-            <h2>Cart Items <span id="itemCount">(0)</span></h2>
-            <div id="cartItems">
-                <p class="muted">Loading your cart...</p>
-            </div>
-        </section>
+        <div id="cartItems"></div>
 
-        <aside class="panel">
-            <h2>Order Summary</h2>
-            <div class="summary-row">
-                <span>Items</span><strong id="summaryCount">0</strong>
-            </div>
-            <div class="summary-row">
-                <span>Subtotal</span><strong id="subtotal">KSh 0.00</strong>
-            </div>
-            <div class="summary-row summary-total">
-                <span>Total</span><strong id="total">KSh 0.00</strong>
-            </div>
+        <div id="emptyCart" class="empty-cart hidden">
+          <div class="empty-icon">🛒</div>
+          <h2>Your cart is empty</h2>
+          <p>Discover products and add something you like.</p>
+          <a href="marketplace.html" class="primary-button">
+            Explore marketplace
+          </a>
+        </div>
+      </section>
 
-            <div class="notice">
-                Checkout is available only for services with confirmed fixed prices.
-                Negotiable services must go through the quote process first.
-                Payment is not processed by this checkout.
-            </div>
+      <aside class="summary-panel">
+        <h2>Order summary</h2>
 
-            <form id="checkoutForm">
-                <label for="deliveryLocation">Delivery or service location</label>
-                <input id="deliveryLocation" name="deliveryLocation"
-                       maxlength="255" placeholder="Town, estate or address">
+        <div class="summary-line">
+          <span>Items</span>
+          <strong id="summaryQuantity">0</strong>
+        </div>
 
-                <label for="customerNote">Additional notes (optional)</label>
-                <textarea id="customerNote" name="customerNote" maxlength="2000"
-                          placeholder="Any instructions for the business"></textarea>
+        <div class="summary-line">
+          <span>Subtotal</span>
+          <strong id="subtotal">KES 0.00</strong>
+        </div>
 
-                <button class="primary-btn" id="checkoutButton" type="submit">
-                    Place Order
-                </button>
-            </form>
+        <div class="summary-line">
+          <span>Delivery</span>
+          <span class="muted">Calculated later</span>
+        </div>
 
-            <button class="secondary-btn" type="button" id="refreshButton">
-                Refresh Cart
-            </button>
-        </aside>
+        <div class="summary-divider"></div>
+
+        <div class="total-line">
+          <span>Estimated total</span>
+          <strong id="total">KES 0.00</strong>
+        </div>
+
+        <p class="summary-note">
+          Final prices, stock availability, and any delivery charges will be
+          confirmed before your order is accepted.
+        </p>
+
+        <button id="checkoutButton" class="primary-button" type="button">
+          Proceed to checkout →
+        </button>
+
+        <p id="checkoutMessage" class="checkout-message hidden"></p>
+
+        <div class="security-note">
+          <span>🔒</span>
+          <span>Orders will be validated by the PataPro server.</span>
+        </div>
+      </aside>
     </div>
-</main>
+  </main>
 
-<footer>© 2026 PataPro Kenya. All rights reserved.</footer>
+  <footer>
+    <a href="marketplace.html">PataPro Kenya</a>
+    <span>© <span id="year"></span> PataPro</span>
+  </footer>
 
-<script>
-(() => {
-    "use strict";
-
-    const API = "/api";
-    const tokenKey = "patapro_token";
-
-    const itemsElement = document.getElementById("cartItems");
-    const messageElement = document.getElementById("message");
-    const checkoutButton = document.getElementById("checkoutButton");
-
-    let cartItems = [];
-
-    function token() {
-        return localStorage.getItem(tokenKey);
-    }
-
-    function money(value) {
-        const amount = Number(value || 0);
-        return "KSh " + amount.toLocaleString("en-KE", {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2
-        });
-    }
-
-    function showMessage(text, type = "error") {
-        messageElement.textContent = text;
-        messageElement.className = "message show " + type;
-    }
-
-    function clearMessage() {
-        messageElement.textContent = "";
-        messageElement.className = "message";
-    }
-
-    async function apiRequest(path, options = {}) {
-        const authToken = token();
-
-        if (!authToken) {
-            throw new Error("Please log in with a customer account to use your cart.");
-        }
-
-        const response = await fetch(API + path, {
-            ...options,
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": "Bearer " + authToken,
-                ...(options.headers || {})
-            }
-        });
-
-        const data = await response.json().catch(() => ({}));
-
-        if (!response.ok) {
-            if (response.status === 401) {
-                throw new Error("Your session may have expired. Please log in again.");
-            }
-            throw new Error(data.message || "The request could not be completed.");
-        }
-
-        return data;
-    }
-
-    function renderCart() {
-        const count = cartItems.reduce(
-            (sum, item) => sum + Number(item.quantity || 0), 0
-        );
-
-        const subtotal = cartItems.reduce(
-            (sum, item) => {
-                if (item.price_type !== "fixed" || item.price == null) {
-                    return sum;
-                }
-                return sum + Number(item.price) * Number(item.quantity || 0);
-            },
-            0
-        );
-
-        document.getElementById("itemCount").textContent = "(" + count + ")";
-        document.getElementById("summaryCount").textContent = count;
-        document.getElementById("subtotal").textContent = money(subtotal);
-        document.getElementById("total").textContent = money(subtotal);
-
-        if (!cartItems.length) {
-            itemsElement.innerHTML = `
-                <div class="empty">
-                    <div class="icon">🛍️</div>
-                    <h3>Your cart is empty</h3>
-                    <p>Browse PataPro and find a service for your needs.</p>
-                    <a href="/pages/services.html">Browse Services →</a>
-                </div>`;
-            checkoutButton.disabled = true;
-            return;
-        }
-
-        checkoutButton.disabled = false;
-
-        itemsElement.replaceChildren();
-
-        cartItems.forEach(item => {
-            const row = document.createElement("article");
-            row.className = "cart-item";
-
-            const details = document.createElement("div");
-            const name = document.createElement("div");
-            name.className = "item-name";
-            name.textContent = item.service_name || item.name || "Service";
-
-            const business = document.createElement("div");
-            business.className = "muted";
-            business.textContent = "Business: " + (item.business_name || "PataPro provider");
-
-            const price = document.createElement("div");
-            price.className = "item-price";
-            price.textContent =
-                item.price_type === "fixed" && item.price != null
-                    ? money(item.price) + " each"
-                    : "Price by quote";
-
-            const quantity = document.createElement("div");
-            quantity.className = "quantity";
-
-            const minus = document.createElement("button");
-            minus.type = "button";
-            minus.textContent = "−";
-            minus.setAttribute("aria-label", "Decrease quantity");
-            minus.disabled = Number(item.quantity) <= 1;
-            minus.addEventListener("click", () =>
-                updateQuantity(item.service_id || item.serviceId || item.id,
-                               Number(item.quantity) - 1)
-            );
-
-            const qty = document.createElement("strong");
-            qty.textContent = String(item.quantity);
-
-            const plus = document.createElement("button");
-            plus.type = "button";
-            plus.textContent = "+";
-            plus.setAttribute("aria-label", "Increase quantity");
-            plus.disabled = Number(item.quantity) >= 100;
-            plus.addEventListener("click", () =>
-                updateQuantity(item.service_id || item.serviceId || item.id,
-                               Number(item.quantity) + 1)
-            );
-
-            quantity.append(minus, qty, plus);
-
-            const remove = document.createElement("button");
-            remove.type = "button";
-            remove.className = "remove-btn";
-            remove.textContent = "Remove";
-            remove.addEventListener("click", () =>
-                removeItem(item.service_id || item.serviceId || item.id)
-            );
-
-            details.append(name, business, price, quantity, remove);
-
-            const lineTotal = document.createElement("strong");
-            lineTotal.textContent =
-                item.price_type === "fixed" && item.price != null
-                    ? money(Number(item.price) * Number(item.quantity || 0))
-                    : "Quote required";
-
-            row.append(details, lineTotal);
-            itemsElement.appendChild(row);
-        });
-    }
-
-    async function loadCart() {
-        clearMessage();
-
-        if (!token()) {
-            cartItems = [];
-            renderCart();
-            showMessage("Please log in with a customer account to view your saved cart.");
-            checkoutButton.disabled = true;
-            return;
-        }
-
-        itemsElement.innerHTML = '<p class="muted">Loading your cart...</p>';
-        checkoutButton.disabled = true;
-
-        try {
-            const data = await apiRequest("/cart");
-            cartItems = Array.isArray(data.items) ? data.items : [];
-            renderCart();
-        } catch (error) {
-            cartItems = [];
-            renderCart();
-            showMessage(error.message);
-        }
-    }
-
-    async function updateQuantity(serviceId, quantity) {
-        if (!serviceId || quantity < 1 || quantity > 100) return;
-
-        try {
-            await apiRequest("/cart/" + encodeURIComponent(serviceId), {
-                method: "PATCH",
-                body: JSON.stringify({ quantity })
-            });
-            await loadCart();
-        } catch (error) {
-            showMessage(error.message);
-        }
-    }
-
-    async function removeItem(serviceId) {
-        if (!serviceId) return;
-        if (!confirm("Remove this service from your cart?")) return;
-
-        try {
-            await apiRequest("/cart/" + encodeURIComponent(serviceId), {
-                method: "DELETE"
-            });
-            await loadCart();
-            showMessage("Service removed from your cart.", "success");
-        } catch (error) {
-            showMessage(error.message);
-        }
-    }
-
-    document.getElementById("checkoutForm").addEventListener("submit", async event => {
-        event.preventDefault();
-        clearMessage();
-
-        if (!cartItems.length) {
-            showMessage("Your cart is empty.");
-            return;
-        }
-
-        const deliveryLocation =
-            document.getElementById("deliveryLocation").value.trim();
-        const customerNote =
-            document.getElementById("customerNote").value.trim();
-
-        checkoutButton.disabled = true;
-        checkoutButton.textContent = "Placing order...";
-
-        try {
-            const data = await apiRequest("/orders/checkout", {
-                method: "POST",
-                body: JSON.stringify({ deliveryLocation, customerNote })
-            });
-
-            cartItems = [];
-            renderCart();
-            document.getElementById("checkoutForm").reset();
-
-            const orderId = data.order && data.order.id
-                ? " Order #" + data.order.id + "."
-                : "";
-
-            showMessage(
-                (data.message || "Order created successfully.") + orderId +
-                " Payment has not been processed.",
-                "success"
-            );
-        } catch (error) {
-            showMessage(error.message);
-        } finally {
-            checkoutButton.disabled = cartItems.length === 0;
-            checkoutButton.textContent = "Place Order";
-        }
-    });
-
-    document.getElementById("refreshButton").addEventListener("click", loadCart);
-    loadCart();
-})();
-</script>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
 </body>
 </html>

@@ -6,7 +6,12 @@ document.addEventListener("DOMContentLoaded", () => {
   // CONFIGURATION
   // =========================================================
 
-  const API_BASE = "https://patapro-kenya-api.onrender.com";
+  const API_BASE = (
+    window.location.hostname === "localhost" ||
+    window.location.hostname === "127.0.0.1"
+  )
+    ? "http://localhost:5000"
+    : "https://patapro-kenya-api.onrender.com";
   const API = `${API_BASE}/api`;
 
   const TOKEN_KEY = "patapro_token";
@@ -317,6 +322,109 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+
+  // =========================================================
+  // PRODUCT APPROVALS
+  // =========================================================
+
+  async function loadPendingProducts() {
+    const table = $("#pendingProductsTable");
+    if (!table) return;
+
+    table.innerHTML =
+      '<tr><td colspan="7">Loading pending products...</td></tr>';
+
+    try {
+      const result = await apiRequest("/admin/products/pending");
+      const products = Array.isArray(result.products) ? result.products : [];
+
+      if (!products.length) {
+        table.innerHTML =
+          '<tr><td colspan="7">No products are waiting for approval.</td></tr>';
+        return;
+      }
+
+      table.innerHTML = products.map((product) => {
+        const id = Number(product.id);
+        const image = product.image_url
+          ? `<img src="${escapeHTML(product.image_url)}" alt="" loading="lazy"
+               style="width:48px;height:48px;object-fit:cover;border-radius:8px">`
+          : "";
+
+        return `
+          <tr>
+            <td>
+              ${image}
+              <strong>${escapeHTML(product.name)}</strong>
+              <div>${escapeHTML(product.description || "")}</div>
+            </td>
+            <td>
+              ${escapeHTML(product.seller_name || "Seller")}
+              <div>${escapeHTML(product.seller_email || "")}</div>
+            </td>
+            <td>${escapeHTML(product.category || "—")}</td>
+            <td>${formatKES(product.price)}</td>
+            <td>${escapeHTML(product.stock_quantity ?? 0)}</td>
+            <td>${formatDate(product.created_at)}</td>
+            <td>
+              <button type="button" class="primary-btn"
+                data-product-action="approve" data-product-id="${id}">
+                Approve
+              </button>
+              <button type="button" class="reject-btn"
+                data-product-action="reject" data-product-id="${id}">
+                Reject
+              </button>
+            </td>
+          </tr>`;
+      }).join("");
+    } catch (error) {
+      table.innerHTML =
+        `<tr><td colspan="7">${escapeHTML(error.message || "Could not load products.")}</td></tr>`;
+    }
+  }
+
+  $("#refreshProducts")?.addEventListener("click", loadPendingProducts);
+
+  document.addEventListener("click", async (event) => {
+    const button = event.target.closest("[data-product-action]");
+    if (!button) return;
+
+    const id = button.dataset.productId;
+    const action = button.dataset.productAction;
+
+    if (!id || !["approve", "reject"].includes(action)) return;
+
+    const confirmation = action === "approve"
+      ? "Approve and publish this product?"
+      : "Reject and archive this draft product? Its record will be preserved.";
+
+    if (!window.confirm(confirmation)) return;
+
+    button.disabled = true;
+
+    try {
+      const result = await apiRequest(
+        `/admin/products/${encodeURIComponent(id)}/${action}`,
+        {
+          method: "PUT",
+          body: JSON.stringify({})
+        }
+      );
+
+      showToast(
+        result.message || `Product ${action}d successfully.`,
+        "success"
+      );
+
+      await loadPendingProducts();
+      await loadAdminOverview();
+    } catch (error) {
+      showToast(error.message || `Could not ${action} product.`, "error");
+      button.disabled = false;
+    }
+  });
+
   // =========================================================
   // NAVIGATION
   // =========================================================
@@ -326,6 +434,7 @@ document.addEventListener("DOMContentLoaded", () => {
     users: loadUsers,
     businesses: loadBusinesses,
     verifications: loadVerifications,
+    products: loadPendingProducts,
     quotes: loadQuotes,
     featured: loadFeatured,
     payments: loadPayments
@@ -340,6 +449,7 @@ document.addEventListener("DOMContentLoaded", () => {
       "users",
       "businesses",
       "verifications",
+      "products",
       "quotes",
       "featured",
       "payments"

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="View product details on PataPro Kenya.">
+  <title>Product Details | PataPro Kenya</title>
+  <link rel="stylesheet" href="../css/product.css">
+  <script src="../js/api-config.js"></script>
+  <script src="../js/product.js" defer></script>
+</head>
+<body>
+  <header class="header">
+    <a class="brand" href="marketplace.html">
+      <span class="brand-icon">P</span>
+      <span>PataPro <small>KENYA</small></span>
+    </a>
+
+    <nav>
+      <a href="marketplace.html">Marketplace</a>
+      <a href="../index.html">Home</a>
+    
+  <a href="my-orders.html">My Orders</a>
+  <a href="customer-dashboard.html">Dashboard</a>
+</nav>
+
+    <a class="cart-link" href="cart.html">
+      🛒 Cart <span id="cartCount">0</span>
+    </a>
+  </header>
+
+  <main class="container">
+    <div class="breadcrumbs">
+      <a href="marketplace.html">Marketplace</a>
+      <span> / </span>
+      <span id="breadcrumbName">Product details</span>
+    </div>
+
+    <div id="loading" class="state">
+      <div class="spinner"></div>
+      <p>Loading product details...</p>
+    </div>
+
+    <section id="errorState" class="state hidden">
+      <h2>Product unavailable</h2>
+      <p id="errorMessage">We could not find this product.</p>
+      <a class="button" href="marketplace.html">Back to marketplace</a>
+    </section>
+
+    <section id="productDetails" class="product-layout hidden">
+      <div class="image-panel">
+        <img id="productImage" class="hidden" src="" alt="">
+        <div id="imagePlaceholder" class="image-placeholder">🛍️</div>
+      </div>
+
+      <div class="details-panel">
+        <span id="productCategory" class="category"></span>
+        <h1 id="productName">Product name</h1>
+
+        <div class="price" id="productPrice"></div>
+
+        <div id="stockStatus" class="stock"></div>
+
+        <div class="seller-box">
+          <span class="seller-icon">🏪</span>
+          <div>
+            <small>Sold by</small>
+            <strong id="sellerName">PataPro seller</strong>
+          </div>
+        </div>
+
+        <h2>Product description</h2>
+        <p id="productDescription" class="description"></p>
+
+        <div class="purchase-row">
+          <label for="quantity">Quantity</label>
+          <div class="quantity-control">
+            <button id="decreaseQuantity" type="button" aria-label="Decrease quantity">−</button>
+            <input id="quantity" type="number" min="1" value="1" inputmode="numeric">
+            <button id="increaseQuantity" type="button" aria-label="Increase quantity">+</button>
+          </div>
+        </div>
+
+        <button id="addToCart" class="button add-button" type="button">
+          Add to cart
+        </button>
+
+        <a href="marketplace.html" class="continue-link">← Continue shopping</a>
+
+        <div class="trust-note">
+          <span>✓</span>
+          Product availability will be checked again at checkout.
+        </div>
+      </div>
+    </section>
+
+    <section class="info-strip">
+      <div><span>🛡️</span><strong>Shop with care</strong><p>Review product details before ordering.</p></div>
+      <div><span>📦</span><strong>Stock information</strong><p>Availability can change before checkout.</p></div>
+      <div><span>🇰🇪</span><strong>Made for Kenya</strong><p>Discover local sellers on PataPro.</p></div>
+    </section>
+  </main>
+
+  <footer>
+    <a href="marketplace.html">PataPro Kenya</a>
+    <span>© <span id="year"></span> PataPro</span>
+  </footer>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

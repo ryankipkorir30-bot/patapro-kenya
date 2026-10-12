@@ -205,6 +205,8 @@ const verificationRoutes = require("./routes/verificationRoutes");
 const featuredRoutes = require("./routes/featuredRoutes");
 const adminRoutes = require("./routes/adminRoutes");
 const cartOrderRoutes = require("./routes/cartOrderRoutes");
+const productRoutes = require("./routes/productRoutes");
+const productOrderRoutes = require("./routes/productOrderRoutes");
 app.use("/api/auth", authRoutes);
 app.use("/api/businesses", businessRoutes);
 app.use("/api", serviceRoutes);
@@ -213,6 +215,8 @@ app.use("/api/verification", verificationRoutes);
 app.use("/api/featured", featuredRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api", cartOrderRoutes);
+app.use("/api/products", productRoutes);
+app.use("/api/product-orders", productOrderRoutes);
 
 // --------------------------------------------------
 // HEALTH CHECK

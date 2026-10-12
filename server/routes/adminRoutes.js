@@ -15,7 +15,10 @@ const {
   updateUserStatus,
   updateBusinessStatus,
   getServices,
-  updateServiceStatus
+  updateServiceStatus,
+  getPendingProducts,
+  approveProduct,
+  rejectProduct
 } = require("../controllers/adminController");
 
 const authMiddleware = require("../middleware/authMiddleware");
@@ -39,6 +42,10 @@ const adminOnly = (req, res, next) => {
 
 // Protect all admin routes
 router.use(authMiddleware, adminOnly);
+
+router.get("/products/pending", getPendingProducts);
+router.put("/products/:id/approve", approveProduct);
+router.put("/products/:id/reject", rejectProduct);
 
 // Dashboard overview
 router.get("/overview", getOverview);

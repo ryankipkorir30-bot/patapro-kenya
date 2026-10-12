@@ -1444,3 +1444,401 @@ a:focus-visible {
     }
 
 }
+
+/* =========================================================
+   PataPro Kenya — Shared User Interface Upgrade
+   Added safely without removing existing styles
+   ========================================================= */
+
+:root {
+  --pp-primary: #2563eb;
+  --pp-primary-dark: #1d4ed8;
+  --pp-accent: #06b6d4;
+  --pp-success: #16a34a;
+  --pp-danger: #dc2626;
+  --pp-text: #0f172a;
+  --pp-muted: #64748b;
+  --pp-border: #e2e8f0;
+  --pp-surface: #ffffff;
+  --pp-bg: #f5f7fb;
+  --pp-radius: 14px;
+  --pp-shadow: 0 8px 28px rgba(15, 23, 42, .08);
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: Inter, "Segoe UI", Roboto, Arial, sans-serif;
+  color: var(--pp-text);
+  overflow-wrap: break-word;
+}
+
+img, video, canvas, iframe {
+  max-width: 100%;
+}
+
+button, input, select, textarea {
+  max-width: 100%;
+}
+
+button, a, input, select, textarea {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button, input[type="submit"], input[type="button"] {
+  cursor: pointer;
+}
+
+button, .btn, .button, .primary-btn, .submit-btn {
+  transition: transform .2s ease, box-shadow .2s ease,
+              background-color .2s ease, border-color .2s ease;
+}
+
+button:hover, .btn:hover, .button:hover,
+.primary-btn:hover, .submit-btn:hover {
+  box-shadow: 0 6px 18px rgba(37, 99, 235, .16);
+}
+
+button:focus-visible, a:focus-visible,
+input:focus-visible, select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid rgba(37, 99, 235, .35);
+  outline-offset: 2px;
+}
+
+input, select, textarea {
+  min-height: 42px;
+}
+
+textarea {
+  resize: vertical;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--pp-border);
+}
+
+th {
+  color: var(--pp-muted);
+  font-size: .84rem;
+  font-weight: 700;
+}
+
+.card, .panel, .stat-card, .category-card,
+.product-card, .business-card, .quote-card,
+.verification-card {
+  border-radius: var(--pp-radius);
+}
+
+.card, .panel, .stat-card {
+  box-shadow: var(--pp-shadow);
+}
+
+.status, .badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+}
+
+.empty-state, .error-message, .success-message {
+  padding: 14px 16px;
+  border-radius: 12px;
+}
+
+.empty-state {
+  color: var(--pp-muted);
+  background: #f8fafc;
+  border: 1px dashed #cbd5e1;
+}
+
+.error-message {
+  color: #991b1b;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+}
+
+.success-message {
+  color: #166534;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+}
+
+@media (max-width: 768px) {
+  img {
+    height: auto;
+  }
+
+  table {
+    font-size: .9rem;
+  }
+
+  th, td {
+    padding: 9px 8px;
+  }
+
+  input, select, textarea {
+    font-size: 16px;
+  }
+
+  .card, .panel {
+    border-radius: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  th, td {
+    padding: 8px 6px;
+    font-size: .82rem;
+  }
+
+  button, .btn, .primary-btn, .submit-btn {
+    max-width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
+
+
+/* PataPro homepage layout enhancement */
+body > header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: rgba(255, 255, 255, .96);
+  border-bottom: 1px solid #e2e8f0;
+  backdrop-filter: blur(14px);
+}
+
+body > header .nav {
+  width: min(1200px, 94%);
+  min-height: 76px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 22px;
+}
+
+body > header .logo {
+  color: #1d4ed8;
+  font-size: 1.5rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+body > header .logo span {
+  color: #0891b2;
+}
+
+body > header nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+body > header nav a {
+  padding: 10px 12px;
+  border-radius: 10px;
+  color: #334155;
+  font-weight: 600;
+  font-size: .92rem;
+  transition: background .2s ease, color .2s ease;
+}
+
+body > header nav a:hover,
+body > header nav a:focus-visible {
+  color: #1d4ed8;
+  background: #eff6ff;
+}
+
+body > .hero {
+  padding: clamp(58px, 9vw, 110px) 20px;
+  background:
+    radial-gradient(ellipse at 85% 15%, rgba(34, 211, 238, .25), transparent 38%),
+    linear-gradient(135deg, #0f172a 0%, #1d4ed8 58%, #0891b2 100%);
+  color: white;
+}
+
+body > .hero .hero-content {
+  width: min(1000px, 100%);
+  margin: auto;
+}
+
+body > .hero h1 {
+  max-width: 850px;
+  margin: 0 auto 20px;
+  font-size: clamp(2rem, 5vw, 4rem);
+  line-height: 1.15;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
+body > .hero h1 marquee {
+  display: block;
+}
+
+body > .hero p {
+  max-width: 720px;
+  margin: 0 auto 30px !important;
+  color: #e0f2fe !important;
+  text-align: center;
+}
+
+body > .hero .search-box {
+  width: min(760px, 100%);
+  margin: auto;
+  padding: 8px;
+  display: flex;
+  gap: 10px;
+  border: 1px solid rgba(255, 255, 255, .35);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, .13);
+  box-shadow: 0 18px 40px rgba(2, 6, 23, .18);
+  backdrop-filter: blur(12px);
+}
+
+body > .hero .search-box input {
+  flex: 1;
+  width: 100%;
+  min-width: 0;
+  padding: 14px 16px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: white;
+  color: #0f172a;
+}
+
+body > .hero .search-box button {
+  padding: 13px 22px;
+  border-radius: 10px;
+  background: #fbbf24;
+  color: #172554;
+  font-weight: 800;
+}
+
+body > .hero .search-box button:hover {
+  background: #f59e0b;
+  transform: translateY(-1px);
+}
+
+body > main.section {
+  width: min(1200px, 94%);
+  margin: 0 auto;
+  padding: 48px 0 64px;
+}
+
+body > main.section .section-title {
+  margin-bottom: 24px;
+}
+
+body > main.section .section-title h2 {
+  color: #0f172a;
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  margin-bottom: 8px;
+}
+
+body > main.section .section-title p {
+  color: #64748b;
+}
+
+body > main.section .stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin: 24px 0 32px;
+}
+
+body > main.section .stat {
+  padding: 22px;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  background: white;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, .05);
+}
+
+body > main.section .stat strong {
+  display: block;
+  margin-bottom: 5px;
+  color: #2563eb;
+  font-size: 1.9rem;
+}
+
+body > main.section .stat span {
+  color: #64748b;
+}
+
+body > footer {
+  padding: 32px 20px;
+  background: #0f172a;
+  color: #e2e8f0;
+  text-align: center;
+}
+
+body > footer h3 {
+  margin-bottom: 10px;
+  color: white;
+}
+
+body > footer p {
+  margin-top: 8px;
+  color: #cbd5e1;
+}
+
+@media (max-width: 900px) {
+  body > header .nav {
+    padding: 14px 0;
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  body > header nav {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 600px) {
+  body > header nav {
+    width: 100%;
+    gap: 5px;
+  }
+
+  body > header nav a {
+    padding: 9px;
+    font-size: .85rem;
+  }
+
+  body > .hero .search-box {
+    flex-direction: column;
+  }
+
+  body > .hero .search-box input,
+  body > .hero .search-box button {
+    width: 100%;
+    min-height: 48px;
+  }
+
+  body > main.section .stats {
+    grid-template-columns: 1fr;
+  }
+}

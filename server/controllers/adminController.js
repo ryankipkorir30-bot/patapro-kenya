@@ -629,12 +629,163 @@ const updateServiceStatus = async (req, res) => {
 };
 
 
+
+/*
+|--------------------------------------------------------------------------
+| GET PRODUCTS AWAITING ADMIN APPROVAL
+|--------------------------------------------------------------------------
+*/
+const getPendingProducts = async (req, res) => {
+  try {
+    const result = await pool.query(`
+      SELECT p.id, p.seller_id, p.name, p.slug, p.description,
+             p.category, p.price, p.image_url, p.stock_quantity,
+             p.status, p.created_at,
+             u.name AS seller_name, u.email AS seller_email
+      FROM products p
+      LEFT JOIN users u ON u.id = p.seller_id
+      WHERE p.status = 'draft'
+      ORDER BY p.created_at ASC
+      LIMIT 100
+    `);
+
+    return res.json({
+      success: true,
+      count: result.rows.length,
+      products: result.rows
+    });
+  } catch (error) {
+    console.error("Admin pending products error:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Failed to load pending products."
+    });
+  }
+};
+
+/*
+|--------------------------------------------------------------------------
+| APPROVE A DRAFT PRODUCT
+|--------------------------------------------------------------------------
+*/
+const approveProduct = async (req, res) => {
+  try {
+    const productId = Number(req.params.id);
+
+    if (!Number.isSafeInteger(productId) || productId <= 0) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid product ID."
+      });
+    }
+
+    const result = await pool.query(`
+      UPDATE products AS p
+      SET status = 'published', updated_at = CURRENT_TIMESTAMP
+      FROM users AS u
+      WHERE p.id = $1
+        AND p.status = 'draft'
+        AND u.id = p.seller_id
+        AND u.is_active = TRUE
+        AND u.role IN ('business', 'service_provider')
+      RETURNING p.id, p.name, p.status, p.seller_id, p.updated_at
+    `, [productId]);
+
+    if (result.rows.length === 0) {
+      const existing = await pool.query(
+        "SELECT id, status FROM products WHERE id = $1",
+        [productId]
+      );
+
+      if (existing.rows.length === 0) {
+        return res.status(404).json({
+          success: false,
+          message: "Product not found."
+        });
+      }
+
+      return res.status(409).json({
+        success: false,
+        message: "Product is not awaiting approval, or its seller account is inactive or unauthorized."
+      });
+    }
+
+    return res.json({
+      success: true,
+      message: "Product approved and published successfully.",
+      product: result.rows[0]
+    });
+  } catch (error) {
+    console.error("Admin product approval error:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Failed to approve product."
+    });
+  }
+};
+
+
 /*
 |--------------------------------------------------------------------------
 | EXPORT CONTROLLERS
 |--------------------------------------------------------------------------
 */
+
+const rejectProduct = async (req, res) => {
+  try {
+    const productId = Number(req.params.id);
+
+    if (!Number.isSafeInteger(productId) || productId <= 0) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid product ID."
+      });
+    }
+
+    const result = await pool.query(`
+      UPDATE products
+      SET status = 'archived', updated_at = CURRENT_TIMESTAMP
+      WHERE id = $1 AND status = 'draft'
+      RETURNING id, name, status, seller_id, updated_at
+    `, [productId]);
+
+    if (result.rows.length === 0) {
+      const existing = await pool.query(
+        "SELECT id, status FROM products WHERE id = $1",
+        [productId]
+      );
+
+      if (!existing.rows.length) {
+        return res.status(404).json({
+          success: false,
+          message: "Product not found."
+        });
+      }
+
+      return res.status(409).json({
+        success: false,
+        message: "Product is no longer awaiting approval."
+      });
+    }
+
+    return res.json({
+      success: true,
+      message: "Product rejected and archived. The product record was preserved.",
+      product: result.rows[0]
+    });
+  } catch (error) {
+    console.error("Admin product rejection error:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Failed to reject product."
+    });
+  }
+};
+
 module.exports = {
+  getPendingProducts,
+  approveProduct,
+  rejectProduct,
   getOverview,
   getUsers,
   getUserDetails,

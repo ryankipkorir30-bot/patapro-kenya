@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b1220">
+  <title>Order Details | PataPro Kenya</title>
+  <link rel="stylesheet" href="../css/order-details.css">
+  <script src="../js/api-config.js"></script>
+  <script src="../js/order-details.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="marketplace.html">
+      <span class="brand-icon">P</span>
+      <span>PataPro <small>KENYA</small></span>
+    </a>
+    <a class="back-link" href="my-orders.html">← My Orders</a>
+  </header>
+
+  <main class="container">
+    <div class="page-heading">
+      <span class="eyebrow">CUSTOMER ACCOUNT</span>
+      <h1>Order details</h1>
+      <p>Review your order information and current status.</p>
+    </div>
+
+    <div id="message" class="message" role="status">
+      Loading order details…
+    </div>
+
+    <div id="orderContent" hidden>
+      <section class="order-header card">
+        <div>
+          <span class="muted">Order reference</span>
+          <h2 id="orderReference">—</h2>
+          <p id="orderDate" class="muted">—</p>
+        </div>
+        <span id="orderStatus" class="status">—</span>
+      </section>
+
+      <div class="details-grid">
+        <section class="card">
+          <h2>Items ordered</h2>
+          <div id="orderItems"></div>
+
+          <div class="total-row">
+            <span>Order total</span>
+            <strong id="orderTotal">—</strong>
+          </div>
+        </section>
+
+        <section class="card">
+          <h2>Delivery information</h2>
+
+          <dl class="details-list">
+            <div>
+              <dt>Recipient</dt>
+              <dd id="customerName">—</dd>
+            </div>
+            <div>
+              <dt>Phone</dt>
+              <dd id="customerPhone">—</dd>
+            </div>
+            <div>
+              <dt>County</dt>
+              <dd id="deliveryCounty">—</dd>
+            </div>
+            <div>
+              <dt>Town / area</dt>
+              <dd id="deliveryTown">—</dd>
+            </div>
+            <div>
+              <dt>Address</dt>
+              <dd id="deliveryAddress">—</dd>
+            </div>
+            <div>
+              <dt>Payment preference</dt>
+              <dd id="paymentMethod">—</dd>
+            </div>
+          </dl>
+
+          <div class="notice">
+            Order status and payment status are different. Confirm payment
+            only through verified platform or seller instructions.
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <div class="page-actions">
+      <a class="secondary-button" href="my-orders.html">All my orders</a>
+      <a class="primary-button" href="marketplace.html">Continue shopping</a>
+    </div>
+  </main>
+
+  <footer>
+    © <span id="year"></span> PataPro Kenya · Shop local, support local.
+  </footer>
+</body>
+</html>
