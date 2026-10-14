@@ -1,13 +1,10 @@
 const productModel = require("../models/productModel");
 
 async function requireActiveSeller(req, res) {
-  if (
-    !req.user ||
-    !["business", "service_provider"].includes(req.user.role)
-  ) {
-    res.status(403).json({
+  if (!req.user || !req.user.id) {
+    res.status(401).json({
       success: false,
-      message: "Only business or service-provider accounts can manage products."
+      message: "Please log in to manage products."
     });
     return false;
   }

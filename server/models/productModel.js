@@ -83,11 +83,16 @@ async function findProductById(id) {
 
 async function isActiveSeller(sellerId) {
   const result = await pool.query(
-    `SELECT id
-     FROM users
-     WHERE id = $1
-       AND is_active = TRUE
-       AND role IN ('business', 'service_provider')
+    `SELECT u.id
+     FROM users u
+     WHERE u.id = $1
+       AND u.is_active = TRUE
+       AND EXISTS (
+         SELECT 1
+         FROM businesses b
+         WHERE b.owner_id = u.id
+           AND b.is_active = TRUE
+       )
      LIMIT 1`,
     [sellerId]
   );
