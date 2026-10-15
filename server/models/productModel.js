@@ -136,7 +136,7 @@ async function createProduct(sellerId, product) {
         stock_quantity,
         status
       )
-      VALUES ($1, $2, $3, $4, $5, $6, $7, 'draft')
+      VALUES ($1, $2, $3, $4, $5, $6, $7, 'published')
       RETURNING *
     `,
     [

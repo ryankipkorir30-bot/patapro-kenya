@@ -55,7 +55,7 @@
 
   function statusLabel(status) {
     return ({
-      draft: "Pending approval",
+      draft: "Published",
       published: "Published",
       archived: "Archived"
     })[status] || status || "Unknown";
@@ -65,7 +65,7 @@
     form.reset();
     productId.value = "";
     field("spFormTitle").textContent = "Create Product Listing";
-    submit.textContent = "Submit for Approval";
+    submit.textContent = "Publish Product";
     cancelEdit.hidden = true;
   }
 
@@ -136,14 +136,14 @@
         body: JSON.stringify(payload)
       });
 
-      showMessage(data.message || (id ? "Product updated." : "Product submitted for approval."));
+      showMessage(data.message || (id ? "Product updated." : "Product published successfully."));
       resetForm();
       await loadProducts();
     } catch (error) {
       showMessage(error.message, "error");
     } finally {
       submit.disabled = false;
-      if (!productId.value) submit.textContent = "Submit for Approval";
+      if (!productId.value) submit.textContent = "Publish Product";
     }
   });
 

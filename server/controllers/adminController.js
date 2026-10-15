@@ -687,7 +687,6 @@ const approveProduct = async (req, res) => {
         AND p.status = 'draft'
         AND u.id = p.seller_id
         AND u.is_active = TRUE
-        AND u.role IN ('business', 'service_provider')
       RETURNING p.id, p.name, p.status, p.seller_id, p.updated_at
     `, [productId]);
 
