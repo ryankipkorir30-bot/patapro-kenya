@@ -502,16 +502,16 @@
       googleMessage.className = `message ${type}`;
     }
 
-    function getDashboardDestination(role) {
-      const destinations = {
-        business: "business.html",
-        customer: "customer-dashboard.html",
-        service_provider: "business-dashboard.html",
-        admin: "../../admin/index.html"
-      };
+   function getDashboardDestination(role) {
+  const destinations = {
+    business: "business-dashboard.html",
+    customer: "customer-dashboard.html",
+    service_provider: "business-dashboard.html",
+    admin: "../../admin/index.html"
+  };
 
-      return destinations[role] || "../index.html";
-    }
+  return destinations[role] || "../index.html";
+}
 
     function saveLoginAndRedirect(data) {
       if (!data || !data.token || !data.user || !data.user.role) {
