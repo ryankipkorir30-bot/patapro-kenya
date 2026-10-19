@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="../js/api-config.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Review your service requests on PataPro Kenya.">
+  <title>Service Cart | PataPro Kenya</title>
+  <link rel="stylesheet" href="../css/cart.css">
+  <script src="../js/service-cart.js" defer></script>
+</head>
+<body>
+  <header class="header">
+    <a class="brand" href="marketplace.html">
+      <span class="brand-icon">P</span>
+      <span>PataPro <small>KENYA</small></span>
+    </a>
+
+    <nav>
+      <a href="../index.html">Home</a>
+      <a href="marketplace.html">Marketplace</a>
+
+  <a href="my-orders.html">My Orders</a>
+  <a href="customer-dashboard.html">Dashboard</a>
+</nav>
+
+    <a href="service-cart.html" class="cart-link">
+      🛒 Cart <span id="cartCount">0</span>
+    </a>
+  </header>
+
+  <main class="container">
+    <div class="breadcrumb">
+      <a href="marketplace.html">Marketplace</a>
+      <span>/</span>
+      <span>Service cart</span>
+    </div>
+
+    <div class="page-heading">
+      <div>
+        <span class="eyebrow">YOUR SELECTED SERVICES</span>
+        <h1>Service cart</h1>
+        <p>Review your selected services before checkout.</p>
+      </div>
+      <a href="services.html" class="continue-link">← Browse services</a>
+    </div>
+
+    <div class="cart-layout">
+      <section class="cart-panel">
+        <div class="panel-heading">
+          <h2>Your services</h2>
+          <span id="itemSummary">0 items</span>
+        </div>
+
+        <div id="cartItems"></div>
+
+        <div id="emptyCart" class="empty-cart hidden">
+          <div class="empty-icon">🛒</div>
+          <h2>Your service cart is empty</h2>
+          <p>Browse services and add one to your cart.</p>
+          <a href="services.html" class="primary-button">
+            Explore services
+          </a>
+        </div>
+      </section>
+
+      <aside class="summary-panel">
+        <h2>Order summary</h2>
+
+        <div class="summary-line">
+          <span>Items</span>
+          <strong id="summaryQuantity">0</strong>
+        </div>
+
+        <div class="summary-line">
+          <span>Subtotal</span>
+          <strong id="subtotal">KES 0.00</strong>
+        </div>
+
+        <div class="summary-line">
+          <span>Delivery</span>
+          <span class="muted">Calculated later</span>
+        </div>
+
+        <div class="summary-divider"></div>
+
+        <div class="total-line">
+          <span>Estimated total</span>
+          <strong id="total">KES 0.00</strong>
+        </div>
+
+        <p class="summary-note">
+          Final prices, stock availability, and any delivery charges will be
+          confirmed before your order is accepted.
+        </p>
+
+        <button id="checkoutButton" class="primary-button" type="button">
+          Proceed to checkout →
+        </button>
+
+        <p id="checkoutMessage" class="checkout-message hidden"></p>
+
+        <div class="security-note">
+          <span>🔒</span>
+          <span>Orders will be validated by the PataPro server.</span>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <footer>
+    <a href="services.html">PataPro Kenya</a>
+    <span>© <span id="year"></span> PataPro</span>
+  </footer>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b1220">
+  <title>Service Checkout | PataPro Kenya</title>
+  <link rel="stylesheet" href="../css/checkout.css">
+  <script src="../js/api-config.js"></script>
+  <script src="../js/service-checkout.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="../index.html">
+      <span class="brand-icon">P</span>
+      <span>PataPro <small>KENYA</small></span>
+    </a>
+    <a class="back-link" href="service-cart.html">← Back to cart</a>
+  </header>
+
+  <main class="checkout-container">
+    <section class="page-heading">
+      <span class="eyebrow">SERVICE CHECKOUT</span>
+      <h1>Confirm your service order</h1>
+      <p>Provide the location where you need the service.</p>
+    </section>
+
+    <div id="message" class="message" role="status" aria-live="polite" hidden></div>
+
+    <div class="checkout-layout">
+      <section class="checkout-card">
+        <form id="serviceCheckoutForm">
+          <h2>Service location</h2>
+
+          <div class="field full">
+            <label for="deliveryLocation">Location *</label>
+            <textarea id="deliveryLocation" name="deliveryLocation"
+              rows="4" maxlength="255"
+              placeholder="County, town, estate, building or other directions"
+              required></textarea>
+          </div>
+
+          <div class="field full">
+            <label for="customerNote">Additional instructions (optional)</label>
+            <textarea id="customerNote" name="customerNote"
+              rows="3" maxlength="2000"
+              placeholder="Describe your requirements or preferred appointment time"></textarea>
+          </div>
+
+          <p class="payment-note">
+            This submits a service order. It does not process a payment.
+            The business may need to confirm availability or other details.
+          </p>
+
+          <button id="placeServiceOrderBtn" class="primary-btn" type="submit">
+            Confirm service order
+          </button>
+        </form>
+      </section>
+
+      <aside class="checkout-card summary-card">
+        <h2>Your services</h2>
+        <div id="serviceOrderItems" class="order-items">
+          <p>Loading your services…</p>
+        </div>
+
+        <div class="summary-line">
+          <span>Subtotal</span>
+          <strong id="serviceSubtotal">KSh 0.00</strong>
+        </div>
+        <div class="summary-total">
+          <span>Estimated total</span>
+          <strong id="serviceTotal">KSh 0.00</strong>
+        </div>
+        <p class="payment-note">
+          Only fixed-price services can be checked out here.
+          Services requiring a quote must be requested separately.
+        </p>
+        <a class="edit-cart" href="service-cart.html">Edit your cart</a>
+      </aside>
+    </div>
+  </main>
+
+  <footer>
+    <p>© <span id="year"></span> PataPro Kenya · Find the right professional.</p>
+  </footer>
+</body>
+</html>
